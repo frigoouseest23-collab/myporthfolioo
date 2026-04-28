@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html lang="id" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portfolio Web</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: { sans: ['Inter', 'sans-serif'] },
+                    colors: { brand: { 50: '#eff6ff', 100: '#dbeafe', 500: '#3b82f6', 600: '#2563eb', 900: '#1e3a8a' } }
+                }
+            }
+        }
+    </script>
+    <style>
+        .fade-in { animation: fadeIn 1s ease-in forwards; opacity: 0; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+        /* Animasi loading sederhana */
+        .loading-text { animation: pulse 1.5s infinite; opacity: 0.5; }
+        @keyframes pulse { 0%, 100% { opacity: 0.5; } 50% { opacity: 1; } }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800 antialiased selection:bg-brand-500 selection:text-white">
+
+    <!-- Navbar -->
+    <header class="fixed w-full top-0 z-50 bg-white/80 backdrop-blur-md border-b border-slate-200 transition-all duration-300">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <div class="flex-shrink-0 flex items-center">
+                    <a href="#beranda" class="text-2xl font-bold text-brand-600 tracking-tighter" id="teks-logo">Portfo<span class="text-slate-800">lio.</span></a>
+                </div>
+                <nav class="hidden md:flex space-x-8">
+                    <a href="#beranda" class="text-slate-600 hover:text-brand-600 font-medium transition-colors">Beranda</a>
+                    <a href="#tentang" class="text-slate-600 hover:text-brand-600 font-medium transition-colors">Tentang</a>
+                    <a href="#portofolio" class="text-slate-600 hover:text-brand-600 font-medium transition-colors">Portofolio</a>
+                    <a href="#kontak" class="text-slate-600 hover:text-brand-600 font-medium transition-colors">Kontak</a>
+                </nav>
+                <div class="md:hidden flex items-center">
+                    <button id="mobile-menu-btn" class="text-slate-600 hover:text-slate-900 focus:outline-none">
+                        <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path id="menu-icon" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" /></svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="hidden md:hidden bg-white border-t border-slate-100 absolute w-full shadow-lg">
+            <div class="px-4 pt-2 pb-6 space-y-1">
+                <a href="#beranda" class="block px-3 py-3 text-base font-medium text-slate-700 hover:text-brand-600 hover:bg-slate-50 rounded-md">Beranda</a>
+                <a href="#tentang" class="block px-3 py-3 text-base font-medium text-slate-700 hover:text-brand-600 hover:bg-slate-50 rounded-md">Tentang</a>
+                <a href="#portofolio" class="block px-3 py-3 text-base font-medium text-slate-700 hover:text-brand-600 hover:bg-slate-50 rounded-md">Portofolio</a>
+                <a href="#kontak" class="block px-3 py-3 text-base font-medium text-brand-600 bg-brand-50 rounded-md mt-4 text-center">Mari Berdiskusi</a>
+            </div>
+        </div>
+    </header>
+
+    <main class="pt-16">
+        <!-- Hero Section -->
+        <section id="beranda" class="relative overflow-hidden flex items-center">
+            <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-20 lg:py-24 w-full">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+                    <div class="fade-in order-2 md:order-1 text-center md:text-left">
+                        <span id="teks-status" class="inline-block py-1 px-3 rounded-full bg-brand-100 text-brand-600 text-sm font-semibold mb-4 loading-text">Memuat data...</span>
+                        <h1 class="text-4xl md:text-5xl lg:text-6xl font-extrabold text-slate-900 leading-tight mb-6">
+                            Halo, Saya <span id="teks-nama" class="text-brand-600 loading-text">Memuat...</span>.
+                        </h1>
+                        <p id="teks-deskripsi-hero" class="text-lg md:text-xl text-slate-600 mb-8 max-w-lg mx-auto md:mx-0 loading-text">
+                            Menghubungkan ke database Google Sheets...
+                        </p>
+                        <div class="flex flex-col sm:flex-row gap-4 justify-center md:justify-start">
+                            <a href="#portofolio" class="bg-slate-900 hover:bg-slate-800 text-white px-8 py-3 rounded-full font-medium transition-all shadow-lg hover:shadow-xl text-center">Lihat Karya Saya</a>
+                            <a href="#kontak" class="bg-white hover:bg-slate-50 text-slate-900 border border-slate-200 px-8 py-3 rounded-full font-medium transition-all shadow-sm hover:shadow-md text-center">Hubungi Saya</a>
+                        </div>
+                    </div>
+                    <div class="fade-in order-1 md:order-2 flex justify-center" style="animation-delay: 0.2s;">
+                        <div class="relative w-64 h-64 md:w-80 md:h-80 lg:w-96 lg:h-96">
+                            <img id="link-foto-profil" src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Foto Profil" class="rounded-full object-cover w-full h-full shadow-2xl border-4 border-white relative z-10 transition-opacity duration-500 opacity-50">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- About Section -->
+        <section id="tentang" class="py-20 bg-white">
+            <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center mb-16 fade-in">
+                    <h2 class="text-3xl md:text-4xl font-bold text-slate-900 mb-4">Tentang Saya</h2>
+                    <div class="w-16 h-1 bg-brand-500 mx-auto rounded-full"></div>
+                </div>
+                
+                <div class="grid grid-cols-1 lg:grid-cols-5 gap-12 items-center">
+                    <div class="lg:col-span-2 fade-in">
+                        <img id="link-foto-tentang" src="https://images.unsplash.com/photo-1498050108023-c5249f4df085?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Ilustrasi Kerja" class="rounded-2xl shadow-lg w-full transition-opacity duration-500 opacity-50">
+                    </div>
+                    <div class="lg:col-span-3 fade-in" style="animation-delay: 0.2s;">
+                        <h3 id="teks-judul-tentang" class="text-2xl font-bold text-slate-800 mb-4 loading-text">Memuat...</h3>
+                        <p id="teks-deskripsi-tentang" class="text-slate-600 mb-6 leading-relaxed whitespace-pre-line loading-text">
+                            Memuat data dari database Google Sheet...
+                        </p>
+                        
+                        <h4 class="text-lg font-semibold text-slate-900 mb-4">Keahlian (Skills)</h4>
+                        <div id="daftar-skill" class="flex flex-wrap gap-2">
+                            <span class="bg-slate-100 text-slate-400 px-4 py-2 rounded-lg text-sm font-medium loading-text">Memuat...</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Portofolio Section -->
+        <section id="portofolio" class="py-20 bg-slate-50">
+            <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center mb-16 fade-in">
+                    <h2 class="text-3xl md:text-4xl font-bold text-slate-900 mb-4">Portofolio Saya</h2>
+                    <p class="text-slate-600 max-w-2xl mx-auto">Beberapa karya dan proyek terbaru yang telah saya selesaikan.</p>
+                    <div class="w-16 h-1 bg-brand-500 mx-auto rounded-full mt-4"></div>
+                </div>
+
+                <div id="wadah-portofolio" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    <div class="col-span-full text-center text-slate-500 loading-text">Memuat proyek portofolio...</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Contact Section -->
+        <section id="kontak" class="py-20 bg-white">
+            <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center mb-16 fade-in">
+                    <h2 class="text-3xl md:text-4xl font-bold text-slate-900 mb-4">Mari Bekerja Sama</h2>
+                    <p class="text-slate-600">Kirim pesan di bawah, datanya akan langsung masuk ke Google Sheets!</p>
+                    <div class="w-16 h-1 bg-brand-500 mx-auto rounded-full mt-4"></div>
+                </div>
+
+                <div class="bg-white p-8 md:p-10 rounded-3xl shadow-sm border border-slate-100 fade-in">
+                    <form id="formKontak" onsubmit="kirimPesan(event)">
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+                            <div>
+                                <label for="nama" class="block text-sm font-medium text-slate-700 mb-2">Nama Lengkap</label>
+                                <input type="text" id="nama" class="w-full px-4 py-3 rounded-xl border border-slate-200 focus:ring-2 focus:ring-brand-500 focus:border-brand-500 outline-none" required>
+                            </div>
+                            <div>
+                                <label for="email" class="block text-sm font-medium text-slate-700 mb-2">Email</label>
+                                <input type="email" id="email" class="w-full px-4 py-3 rounded-xl border border-slate-200 focus:ring-2 focus:ring-brand-500 focus:border-brand-500 outline-none" required>
+                            </div>
+                        </div>
+                        <div class="mb-6">
+                            <label for="subjek" class="block text-sm font-medium text-slate-700 mb-2">Subjek</label>
+                            <input type="text" id="subjek" class="w-full px-4 py-3 rounded-xl border border-slate-200 focus:ring-2 focus:ring-brand-500 focus:border-brand-500 outline-none" required>
+                        </div>
+                        <div class="mb-6">
+                            <label for="pesan" class="block text-sm font-medium text-slate-700 mb-2">Pesan</label>
+                            <textarea id="pesan" rows="4" class="w-full px-4 py-3 rounded-xl border border-slate-200 focus:ring-2 focus:ring-brand-500 focus:border-brand-500 outline-none resize-none" required></textarea>
+                        </div>
+                        <button type="submit" id="tombolKirim" class="w-full bg-brand-600 hover:bg-brand-700 text-white font-bold py-4 px-6 rounded-xl transition-all shadow-md">
+                            Kirim Pesan
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-slate-900 text-slate-300 py-12 border-t border-slate-800">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex flex-col md:flex-row justify-between items-center gap-6">
+                <div class="text-center md:text-left">
+                    <a href="#beranda" class="text-2xl font-bold text-white tracking-tighter block mb-2" id="teks-logo-footer">Portfo<span class="text-brand-500">lio.</span></a>
+                    <p id="teks-footer" class="text-slate-400 text-sm loading-text">© 2026 Memuat data...</p>
+                </div>
+
+                <!-- Social Links -->
+                <div class="flex space-x-6">
+                    <a href="#" id="link-github" target="_blank" rel="noopener noreferrer" class="text-slate-400 hover:text-white transition-colors">
+                        <span class="sr-only">GitHub</span>
+                        <svg class="h-6 w-6" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                            <path fill-rule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z" clip-rule="evenodd" />
+                        </svg>
+                    </a>
+                    <a href="#" id="link-linkedin" target="_blank" rel="noopener noreferrer" class="text-slate-400 hover:text-[#0077b5] transition-colors">
+                        <span class="sr-only">LinkedIn</span>
+                        <svg class="h-6 w-6" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                            <path fill-rule="evenodd" d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z" clip-rule="evenodd" />
+                        </svg>
+                    </a>
+                    <a href="#" id="link-instagram" target="_blank" rel="noopener noreferrer" class="text-slate-400 hover:text-[#E1306C] transition-colors">
+                        <span class="sr-only">Instagram</span>
+                        <svg class="h-6 w-6" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                            <path fill-rule="evenodd" d="M12.315 2c2.43 0 2.784.013 3.808.06 1.064.049 1.791.218 2.427.465a4.902 4.902 0 011.772 1.153 4.902 4.902 0 011.153 1.772c.247.636.416 1.363.465 2.427.048 1.067.06 1.407.06 4.123v.08c0 2.643-.012 2.987-.06 4.043-.049 1.064-.218 1.791-.465 2.427a4.902 4.902 0 01-1.153 1.772 4.902 4.902 0 01-1.772 1.153c-.636.247-1.363.416-2.427.465-1.067.048-1.407.06-4.123.06h-.08c-2.643 0-2.987-.012-4.043-.06-1.064-.049-1.791-.218-2.427-.465a4.902 4.902 0 01-1.772-1.153 4.902 4.902 0 01-1.153-1.772c-.247-.636-.416-1.363-.465-2.427-.047-1.024-.06-1.379-.06-3.808v-.63c0-2.43.013-2.784.06-3.808.049-1.064.218-1.791.465-2.427a4.902 4.902 0 011.153-1.772A4.902 4.902 0 015.45 2.525c.636-.247 1.363-.416 2.427-.465C8.901 2.013 9.256 2 11.685 2h.63zm-.081 1.802h-.468c-2.456 0-2.784.011-3.807.058-.975.045-1.504.207-1.857.344-.467.182-.8.398-1.15.748-.35.35-.566.683-.748 1.15-.137.353-.3.882-.344 1.857-.047 1.023-.058 1.351-.058 3.807v.468c0 2.456.011 2.784.058 3.807.045.975.207 1.504.344 1.857.182.466.399.8.748 1.15.35.35.683.566 1.15.748.353.137.882.3 1.857.344 1.054.048 1.37.058 4.041.058h.08c2.597 0 2.917-.01 3.96-.058.976-.045 1.505-.207 1.858-.344.466-.182.8-.398 1.15-.748.35-.35.566-.683.748-1.15.137-.353.3-.882.344-1.857.048-1.055.058-1.37.058-4.041v-.08c0-2.597-.01-2.917-.058-3.96-.045-.976-.207-1.505-.344-1.858a3.097 3.097 0 00-.748-1.15 3.098 3.098 0 00-1.15-.748c-.353-.137-.882-.3-1.857-.344-1.023-.047-1.351-.058-3.807-.058zM12 6.865a5.135 5.135 0 110 10.27 5.135 5.135 0 010-10.27zm0 1.802a3.333 3.333 0 100 6.666 3.333 3.333 0 000-6.666zm5.338-3.205a1.2 1.2 0 110 2.4 1.2 1.2 0 010-2.4z" clip-rule="evenodd" />
+                        </svg>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Script Utama (Sudah diubah untuk GitHub) -->
+    <script>
+        // ==========================================
+        // MASUKKAN URL GOOGLE APPS SCRIPT ANDA DI SINI
+        // URL HARUS BERAKHIRAN /exec
+        // ==========================================
+        const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxWcY7C8KCUdLrF4yddLlrJr3SF9uxu_OWMjouDxGcjziqWc5GeCbfuLxv9ZL4-eELKYQ/exec'; 
+
+        // 1. Fungsi Mengambil Data dari Sheet saat web pertama kali dibuka
+        document.addEventListener('DOMContentLoaded', function() {
+            if (SCRIPT_URL === 'PASTE_URL_YANG_BERAKHIRAN_EXEC_DISINI') {
+                alert('PERINGATAN: Anda belum memasukkan SCRIPT_URL di dalam file HTML ini. Silakan edit file HTML dan masukkan URL berakhiran /exec dari Google Apps Script Anda.');
+                return;
+            }
+
+            // Fetch data dari Google Apps Script (Method GET)
+            fetch(SCRIPT_URL)
+                .then(response => response.json())
+                .then(data => {
+                    if(data && data.error) {
+                        console.error(data.error);
+                        return;
+                    }
+
+                    const elemenTeks = [
+                        'teks-nama', 'teks-status', 'teks-deskripsi-hero', 
+                        'teks-judul-tentang', 'teks-deskripsi-tentang', 
+                        'teks-footer', 'teks-logo', 'teks-logo-footer'
+                    ];
+
+                    elemenTeks.forEach(id => {
+                        if(data && data[id] && document.getElementById(id)) {
+                            const el = document.getElementById(id);
+                            el.innerText = data[id];
+                            el.classList.remove('loading-text');
+                        }
+                    });
+
+                    if(data && data['link-foto-profil']) {
+                        const img = document.getElementById('link-foto-profil');
+                        img.src = data['link-foto-profil'];
+                        img.classList.remove('opacity-50');
+                    }
+                    if(data && data['link-foto-tentang']) {
+                        const img = document.getElementById('link-foto-tentang');
+                        img.src = data['link-foto-tentang'];
+                        img.classList.remove('opacity-50');
+                    }
+                    if(data && data['link-github']) document.getElementById('link-github').href = data['link-github'];
+                    if(data && data['link-linkedin']) document.getElementById('link-linkedin').href = data['link-linkedin'];
+                    if(data && data['link-instagram']) document.getElementById('link-instagram').href = data['link-instagram'];
+
+                    if(data && data['daftar-skill']) {
+                        const skillContainer = document.getElementById('daftar-skill');
+                        skillContainer.innerHTML = ''; 
+                        const skills = data['daftar-skill'].split(',');
+                        skills.forEach(skill => {
+                            if(skill.trim() !== '') {
+                                skillContainer.innerHTML += `<span class="bg-slate-100 text-slate-700 px-4 py-2 rounded-lg text-sm font-medium border border-slate-200">${skill.trim()}</span>`;
+                            }
+                        });
+                    }
+
+                    if(data && data.portofolio) {
+                        const wadahPorto = document.getElementById('wadah-portofolio');
+                        wadahPorto.innerHTML = ''; 
+                        
+                        if(data.portofolio.length === 0) {
+                            wadahPorto.innerHTML = '<div class="col-span-full text-center text-slate-500">Belum ada portofolio yang ditambahkan.</div>';
+                        } else {
+                            data.portofolio.forEach((item, index) => {
+                                const tags = item.tags ? item.tags.split(',') : [];
+                                let tagsHtml = '';
+                                tags.forEach(tag => {
+                                    if(tag.trim() !== '') tagsHtml += `<span class="text-xs bg-slate-100 text-slate-600 px-2 py-1 rounded">${tag.trim()}</span>`;
+                                });
+
+                                const cardHtml = `
+                                    <div class="bg-white rounded-2xl overflow-hidden shadow-md hover:shadow-xl transition-shadow duration-300 group fade-in" style="animation-play-state: running; animation-delay: ${index * 0.1}s;">
+                                        <div class="relative h-60 overflow-hidden">
+                                            <img src="${item.gambar}" alt="${item.judul}" class="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-500" onerror="this.src='https://images.unsplash.com/photo-1551288049-bebda4e38f71?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80'">
+                                        </div>
+                                        <div class="p-6">
+                                            <div class="text-xs font-bold text-brand-600 mb-2 uppercase tracking-wider">${item.kategori}</div>
+                                            <h3 class="text-xl font-bold text-slate-900 mb-2">${item.judul}</h3>
+                                            <p class="text-slate-600 text-sm mb-4 line-clamp-2">${item.deskripsi}</p>
+                                            <div class="flex gap-2 flex-wrap">${tagsHtml}</div>
+                                        </div>
+                                    </div>`;
+                                wadahPorto.innerHTML += cardHtml;
+                            });
+                        }
+                    }
+                })
+                .catch(error => {
+                    console.error('Gagal memuat data dari API:', error);
+                    alert("Gagal memuat data dari Google Sheets. Pastikan URL API sudah benar dan berakhiran /exec.");
+                });
+        });
+
+        // 2. Fungsi Mengirim Pesan (Method POST via fetch FormData)
+        function kirimPesan(e) {
+            e.preventDefault();
+            
+            if (SCRIPT_URL === 'PASTE_URL_YANG_BERAKHIRAN_EXEC_DISINI') {
+                alert('Script URL belum diatur!');
+                return;
+            }
+
+            const tombol = document.getElementById('tombolKirim');
+            const teksAsli = tombol.innerText;
+            tombol.innerText = 'Memproses...';
+            tombol.disabled = true;
+
+            const formData = new FormData();
+            formData.append('nama', document.getElementById('nama').value);
+            formData.append('email', document.getElementById('email').value);
+            formData.append('subjek', document.getElementById('subjek').value);
+            formData.append('pesan', document.getElementById('pesan').value);
+
+            fetch(SCRIPT_URL, {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                if(data && data.status === 'Sukses') {
+                    alert('Berhasil! Pesan telah masuk ke Google Sheet.');
+                    document.getElementById('formKontak').reset();
+                } else {
+                    alert('Gagal mengirim pesan.');
+                }
+                kembalikanTombol();
+            })
+            .catch(error => {
+                alert('Terjadi kesalahan jaringan.');
+                kembalikanTombol();
+            });
+
+            function kembalikanTombol() {
+                tombol.innerText = teksAsli;
+                tombol.disabled = false;
+            }
+        }
+
+        // 3. Animasi dan Navigasi
+        const fadeElements = document.querySelectorAll('.fade-in');
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) entry.target.style.animationPlayState = 'running';
+            });
+        });
+        fadeElements.forEach(el => { el.style.animationPlayState = 'paused'; observer.observe(el); });
+
+        const btn = document.getElementById('mobile-menu-btn');
+        const menu = document.getElementById('mobile-menu');
+        const icon = document.getElementById('menu-icon');
+
+        if(btn && menu && icon) {
+            btn.addEventListener('click', () => {
+                menu.classList.toggle('hidden');
+                if (menu.classList.contains('hidden')) {
+                    icon.setAttribute('d', 'M4 6h16M4 12h16M4 18h16');
+                } else {
+                    icon.setAttribute('d', 'M6 18L18 6M6 6l12 12');
+                }
+            });
+        }
+
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                if (menu && !menu.classList.contains('hidden')) {
+                    menu.classList.add('hidden');
+                    if (icon) icon.setAttribute('d', 'M4 6h16M4 12h16M4 18h16');
+                }
+                const targetId = this.getAttribute('href').substring(1);
+                const targetElement = document.getElementById(targetId);
+                if (targetElement) {
+                    const headerOffset = 64; 
+                    const elementPosition = targetElement.getBoundingClientRect().top;
+                    const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+                    window.scrollTo({ top: offsetPosition, behavior: "smooth" });
+                }
+            });
+        });
+
+        const sections = document.querySelectorAll("section");
+        const navLinksDesktop = document.querySelectorAll("nav a");
+        const navLinksMobile = document.querySelectorAll("#mobile-menu a:not(.text-center)");
+
+        window.addEventListener("scroll", () => {
+            let current = "";
+            sections.forEach((section) => {
+                const sectionTop = section.offsetTop;
+                if (pageYOffset >= sectionTop - 150) {
+                    current = section.getAttribute("id");
+                }
+            });
+
+            navLinksDesktop.forEach((a) => {
+                a.classList.remove("text-brand-600");
+                a.classList.add("text-slate-600");
+                if (a.getAttribute("href") === `#${current}`) {
+                    a.classList.remove("text-slate-600");
+                    a.classList.add("text-brand-600");
+                }
+            });
+
+            navLinksMobile.forEach((a) => {
+                a.classList.remove("text-brand-600", "bg-slate-50");
+                a.classList.add("text-slate-700");
+                if (a.getAttribute("href") === `#${current}`) {
+                    a.classList.remove("text-slate-700");
+                    a.classList.add("text-brand-600", "bg-slate-50");
+                }
+            });
+        });
+    </script>
+</body>
+</html>
