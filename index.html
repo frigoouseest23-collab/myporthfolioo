@@ -9,12 +9,18 @@
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@200;400;600;800&display=swap" rel="stylesheet">
     <style>
         :root { --brand-main: #2563eb; }
+        
+        /* Dark Mode Transitions */
+        .dark { color-scheme: dark; }
         body { 
             font-family: 'Plus Jakarta Sans', sans-serif; 
             overflow-x: hidden; 
-            background-color: #ffffff;
+            transition: background-color 0.5s ease, color 0.5s ease;
             cursor: crosshair;
         }
+
+        .light-theme { background-color: #ffffff; color: #0f172a; }
+        .dark-theme { background-color: #020617; color: #f8fafc; }
         
         /* Noise Texture Overlay */
         body::before {
@@ -40,16 +46,17 @@
         }
 
         /* Seamless fade-in */
-        #main-wrapper { opacity: 0; transition: opacity 1.2s cubic-bezier(0.4, 0, 0.2, 1); }
+        #main-wrapper { opacity: 0; transition: opacity 0.8s cubic-bezier(0.4, 0, 0.2, 1); }
         .content-ready #main-wrapper { opacity: 1; }
 
         /* Modern Animation */
-        @keyframes slideUp { from { opacity: 0; transform: translateY(40px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes slideUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
         .reveal { opacity: 0; }
-        .reveal.active { animation: slideUp 1s cubic-bezier(0.2, 1, 0.3, 1) forwards; }
+        .reveal.active { animation: slideUp 0.8s cubic-bezier(0.2, 1, 0.3, 1) forwards; }
 
-        /* Navigation Glass */
-        .nav-scrolled { background: rgba(255, 255, 255, 0.8); backdrop-blur: 20px; border-bottom: 1px solid #eeeeee; }
+        .nav-scrolled { backdrop-blur: 20px; border-bottom: 1px solid rgba(148, 163, 184, 0.1); }
+        .light-theme .nav-scrolled { background: rgba(255, 255, 255, 0.8); }
+        .dark-theme .nav-scrolled { background: rgba(2, 6, 23, 0.8); }
         
         /* Mobile Nav */
         #mobile-menu { transition: all 0.4s cubic-bezier(0.7, 0, 0.3, 1); clip-path: inset(0 0 100% 0); }
@@ -57,13 +64,11 @@
 
         /* Global Reset Sharp */
         * { border-radius: 0 !important; }
-
-        /* Typography spacing */
         .kerning-tight { letter-spacing: -0.05em; }
-        .kerning-wide { letter-spacing: 0.3em; }
     </style>
     <script>
         tailwind.config = {
+            darkMode: 'class',
             theme: {
                 extend: {
                     colors: { 
@@ -78,170 +83,142 @@
         }
     </script>
 </head>
-<body class="text-slate-900 selection:bg-brand-600 selection:text-white uppercase-titles">
+<body class="light-theme text-slate-900 selection:bg-brand-600 selection:text-white uppercase-titles transition-colors duration-500">
 
     <div class="spotlight" id="spotlight"></div>
 
     <!-- Preloader -->
-    <div id="loader" class="fixed inset-0 z-[100] flex items-center justify-center bg-white transition-all duration-700">
+    <div id="loader" class="fixed inset-0 z-[100] flex items-center justify-center bg-white dark:bg-slate-950 transition-all duration-700">
         <div class="flex flex-col items-center">
-            <div class="w-16 h-[1px] bg-slate-200 relative overflow-hidden">
-                <div class="absolute inset-0 bg-brand-600 w-full -translate-x-full animate-[loader_2s_infinite]"></div>
+            <div class="w-12 h-[1px] bg-slate-200 dark:bg-slate-800 relative overflow-hidden">
+                <div class="absolute inset-0 bg-brand-600 w-full -translate-x-full animate-[loader_1.5s_infinite]"></div>
             </div>
-            <span class="text-[10px] font-black uppercase tracking-[0.5em] mt-4 text-slate-400">System Initializing</span>
         </div>
     </div>
     <style> @keyframes loader { to { transform: translateX(100%); } } </style>
 
-    <!-- Video Modal -->
-    <div id="video-modal" class="fixed inset-0 z-[200] bg-black/95 flex items-center justify-center p-0 md:p-20 opacity-0 pointer-events-none transition-opacity duration-500">
-        <div class="relative w-full max-w-6xl aspect-video bg-black">
-            <button onclick="closeVideo()" class="absolute -top-12 right-0 text-white flex items-center space-x-2 group">
-                <span class="text-[10px] font-bold uppercase tracking-widest opacity-0 group-hover:opacity-100 transition-opacity">Close Player</span>
-                <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M6 18L18 6M6 6l12 12"></path></svg>
-            </button>
-            <iframe id="video-frame" class="w-full h-full" src="" frameborder="0" allow="autoplay; fullscreen" allowfullscreen></iframe>
-        </div>
-    </div>
-
     <div id="main-wrapper">
-        <!-- Ultra-Thin Navbar -->
-        <header id="navbar" class="fixed w-full top-0 z-50 transition-all duration-500 py-6 border-b border-transparent">
+        <!-- Navbar -->
+        <header id="navbar" class="fixed w-full top-0 z-50 transition-all duration-300 py-4">
             <div class="max-w-7xl mx-auto px-6 md:px-12 flex justify-between items-center">
-                <a href="#beranda" class="text-2xl font-black kerning-tight text-slate-950" id="teks-logo-container">
+                <a href="#beranda" class="text-xl font-black kerning-tight text-slate-950 dark:text-white" id="teks-logo-container">
                     <span id="teks-logo"></span><span class="text-brand-600">.</span>
                 </a>
                 
-                <nav class="hidden md:flex items-center space-x-12 text-[10px] font-bold uppercase tracking-[0.25em] text-slate-400">
+                <nav class="hidden md:flex items-center space-x-10 text-[10px] font-bold uppercase tracking-[0.25em] text-slate-400">
                     <a href="#beranda" class="hover:text-brand-600 transition-all">Home</a>
                     <a href="#tentang" class="hover:text-brand-600 transition-all">About</a>
                     <a href="#portofolio" class="hover:text-brand-600 transition-all">Work</a>
-                    <a href="#kontak" class="text-slate-900 border-b border-slate-900 pb-1 hover:text-brand-600 hover:border-brand-600 transition-all">Connect</a>
+                    <a href="#kontak" class="text-slate-900 dark:text-white border-b border-slate-900 dark:border-white pb-1 hover:text-brand-600 transition-all">Connect</a>
+                    <!-- Theme Toggle Button -->
+                    <button onclick="toggleTheme()" class="p-2 border border-slate-200 dark:border-slate-800 hover:bg-slate-50 dark:hover:bg-slate-900 transition-all">
+                        <svg id="theme-icon-light" class="w-4 h-4 hidden" fill="currentColor" viewBox="0 0 20 20"><path d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.464 5.05l-.707-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z"/></svg>
+                        <svg id="theme-icon-dark" class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"/></svg>
+                    </button>
                 </nav>
 
                 <button id="menu-toggle" class="md:hidden p-2">
-                    <div class="w-6 h-[2px] bg-slate-900 mb-1.5"></div>
-                    <div class="w-4 h-[2px] bg-slate-900 ml-auto"></div>
+                    <div class="w-6 h-[1.5px] bg-slate-900 dark:bg-white mb-1"></div>
+                    <div class="w-6 h-[1.5px] bg-slate-900 dark:bg-white"></div>
                 </button>
             </div>
 
-            <!-- Mobile Nav Overlay -->
-            <div id="mobile-menu" class="fixed inset-0 top-0 left-0 w-full h-screen bg-white z-40 md:hidden flex flex-col items-center justify-center">
-                <nav class="flex flex-col space-y-10 text-center">
-                    <a href="#beranda" class="mobile-link text-4xl font-black kerning-tight hover:text-brand-600">Home</a>
-                    <a href="#tentang" class="mobile-link text-4xl font-black kerning-tight hover:text-brand-600">About</a>
-                    <a href="#portofolio" class="mobile-link text-4xl font-black kerning-tight hover:text-brand-600">Portfolio</a>
-                    <a href="#kontak" class="mobile-link text-4xl font-black kerning-tight hover:text-brand-600">Contact</a>
+            <!-- Mobile Nav -->
+            <div id="mobile-menu" class="fixed inset-0 top-0 left-0 w-full h-screen bg-white dark:bg-slate-950 z-40 md:hidden flex flex-col items-center justify-center">
+                <nav class="flex flex-col space-y-8 text-center">
+                    <a href="#beranda" class="mobile-link text-3xl font-black kerning-tight hover:text-brand-600 dark:text-white">Home</a>
+                    <a href="#tentang" class="mobile-link text-3xl font-black kerning-tight hover:text-brand-600 dark:text-white">About</a>
+                    <a href="#portofolio" class="mobile-link text-3xl font-black kerning-tight hover:text-brand-600 dark:text-white">Portfolio</a>
+                    <button onclick="toggleTheme()" class="text-xl font-bold uppercase tracking-widest dark:text-white">Switch Theme</button>
                 </nav>
             </div>
         </header>
 
-        <!-- Hero Section: Kinetic Design -->
-        <section id="beranda" class="min-h-screen flex items-center pt-32 pb-20 border-b border-slate-100 relative overflow-hidden">
-            <div class="max-w-7xl mx-auto px-6 md:px-12 grid lg:grid-cols-12 gap-12 items-center w-full">
-                <!-- Large Background Text (Design Element) -->
-                <div class="absolute -bottom-10 -right-20 text-[20vw] font-black text-slate-50 pointer-events-none select-none -z-10 tracking-tighter">AI.BIZ</div>
-
-                <div class="lg:col-span-7 space-y-10 reveal active order-2 lg:order-1">
-                    <div class="flex items-center space-x-4">
-                        <div class="w-8 h-[1px] bg-brand-600"></div>
-                        <span class="text-[10px] font-bold uppercase tracking-[0.4em] text-brand-600" id="teks-status"></span>
-                    </div>
-                    <h1 class="text-6xl md:text-8xl lg:text-9xl font-black text-slate-950 kerning-tight leading-[0.9]" id="teks-nama"></h1>
-                    <p class="text-base md:text-xl text-slate-500 leading-relaxed max-w-xl font-light" id="teks-deskripsi-hero"></p>
+        <!-- Hero Section -->
+        <section id="beranda" class="min-h-screen flex items-center pt-20 pb-10 border-b border-slate-100 dark:border-slate-900">
+            <div class="max-w-7xl mx-auto px-6 md:px-12 grid lg:grid-cols-12 gap-8 items-center w-full">
+                <div class="lg:col-span-7 space-y-6 reveal active order-2 lg:order-1 text-center lg:text-left">
+                    <span class="text-[9px] font-bold uppercase tracking-[0.4em] text-brand-600" id="teks-status"></span>
+                    <h1 class="text-5xl md:text-7xl lg:text-8xl font-black text-slate-950 dark:text-white kerning-tight leading-[0.95]" id="teks-nama"></h1>
+                    <p class="text-sm md:text-lg text-slate-500 dark:text-slate-400 leading-relaxed max-w-lg mx-auto lg:mx-0 font-light" id="teks-deskripsi-hero"></p>
                     
-                    <div class="flex flex-wrap items-center gap-8 pt-4">
-                        <a href="#portofolio" class="group flex items-center space-x-4">
-                            <div class="w-16 h-16 bg-slate-950 text-white flex items-center justify-center group-hover:bg-brand-600 transition-all duration-500">
-                                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M17 8l4 4m0 0l-4 4m4-4H3"></path></svg>
+                    <div class="flex flex-wrap items-center justify-center lg:justify-start gap-6 pt-2">
+                        <a href="#portofolio" class="group flex items-center space-x-3">
+                            <div class="w-12 h-12 bg-slate-950 dark:bg-white text-white dark:text-slate-950 flex items-center justify-center group-hover:bg-brand-600 group-hover:text-white transition-all">
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M17 8l4 4m0 0l-4 4m4-4H3" stroke-width="1.5"/></svg>
                             </div>
-                            <span class="text-[11px] font-black uppercase tracking-[0.3em]">View Case Studies</span>
+                            <span class="text-[10px] font-black uppercase tracking-[0.2em] dark:text-slate-300">Projects</span>
                         </a>
-                        <button id="btn-video" onclick="openVideo()" class="hidden text-[11px] font-black uppercase tracking-[0.3em] border-b-2 border-slate-200 hover:border-brand-600 pb-1 transition-all">Watch Intro</button>
                     </div>
                 </div>
 
-                <div class="lg:col-span-5 reveal active order-1 lg:order-2" style="animation-delay: 0.3s">
-                    <div class="relative grayscale hover:grayscale-0 transition-all duration-1000">
-                        <img id="link-foto-profil" src="" alt="Profile" class="w-full h-auto object-cover border-[1px] border-slate-200">
-                        <!-- Technical Floating Element -->
-                        <div class="absolute -bottom-6 -left-6 bg-white border border-slate-200 p-6 shadow-xl hidden md:block">
-                            <div class="text-[10px] font-black text-slate-400 uppercase mb-2">Primary Core</div>
-                            <div class="text-xl font-black kerning-tight">DIGITAL STRATEGY</div>
-                        </div>
+                <div class="lg:col-span-5 reveal active order-1 lg:order-2">
+                    <div class="relative">
+                        <img id="link-foto-profil" src="" alt="Profile" class="w-full h-auto object-cover grayscale hover:grayscale-0 transition-all duration-700">
                     </div>
                 </div>
             </div>
         </section>
 
-        <!-- About Section: Minimalist Grid -->
-        <section id="tentang" class="py-24 md:py-32 bg-white border-b border-slate-100">
-            <div class="max-w-7xl mx-auto px-6 md:px-12 grid lg:grid-cols-12 gap-20">
+        <!-- About Section -->
+        <section id="tentang" class="py-16 md:py-24 bg-white dark:bg-slate-950 border-b border-slate-100 dark:border-slate-900">
+            <div class="max-w-7xl mx-auto px-6 md:px-12 grid lg:grid-cols-12 gap-12">
                 <div class="lg:col-span-4 reveal">
-                    <div class="sticky top-32 space-y-6">
-                        <h2 class="text-[10px] font-black uppercase tracking-[0.5em] text-slate-400">Overview</h2>
-                        <h3 class="text-4xl font-black kerning-tight leading-none" id="teks-judul-tentang"></h3>
+                    <div class="sticky top-28 space-y-4">
+                        <h2 class="text-[9px] font-black uppercase tracking-[0.4em] text-slate-400">Overview</h2>
+                        <h3 class="text-3xl font-black kerning-tight leading-tight dark:text-white" id="teks-judul-tentang"></h3>
                     </div>
                 </div>
-                <div class="lg:col-span-8 space-y-12 reveal" style="animation-delay: 0.2s">
-                    <img id="link-foto-tentang" src="" alt="Office" class="w-full h-[400px] object-cover filter brightness-90">
-                    <div class="grid md:grid-cols-2 gap-12">
-                        <p class="text-lg text-slate-600 leading-relaxed font-light" id="teks-deskripsi-tentang"></p>
-                        <div class="space-y-6">
-                            <h4 class="text-[10px] font-black uppercase tracking-[0.3em] text-slate-900 border-b border-slate-100 pb-4">Technologies & Stack</h4>
-                            <div id="daftar-skill" class="grid grid-cols-2 gap-y-4 gap-x-2"></div>
+                <div class="lg:col-span-8 space-y-10 reveal">
+                    <img id="link-foto-tentang" src="" alt="About" class="w-full h-[350px] object-cover filter brightness-95">
+                    <div class="grid md:grid-cols-2 gap-10">
+                        <p class="text-base text-slate-600 dark:text-slate-400 leading-relaxed font-light" id="teks-deskripsi-tentang"></p>
+                        <div class="space-y-4">
+                            <h4 class="text-[9px] font-black uppercase tracking-[0.3em] text-slate-900 dark:text-white border-b border-slate-100 dark:border-slate-900 pb-2">Expertise</h4>
+                            <div id="daftar-skill" class="grid grid-cols-1 gap-y-2"></div>
                         </div>
                     </div>
                 </div>
             </div>
         </section>
 
-        <!-- Portfolio: The Bento Grid -->
-        <section id="portofolio" class="py-24 md:py-32 bg-slate-50">
+        <!-- Portfolio -->
+        <section id="portofolio" class="py-16 md:py-24 bg-slate-50 dark:bg-slate-900/50">
             <div class="max-w-7xl mx-auto px-6 md:px-12">
-                <div class="mb-20 flex justify-between items-end reveal">
-                    <div class="space-y-4">
-                        <h2 class="text-[10px] font-black uppercase tracking-[0.5em] text-slate-400">Selected Portfolio</h2>
-                        <h3 class="text-5xl md:text-7xl font-black kerning-tight">WORKS.</h3>
-                    </div>
+                <div class="mb-12 reveal">
+                    <h2 class="text-[9px] font-black uppercase tracking-[0.4em] text-slate-400">Portfolio</h2>
+                    <h3 class="text-4xl font-black kerning-tight dark:text-white">SELECTED WORKS.</h3>
                 </div>
-                <!-- CSS Grid with varying card styles -->
-                <div id="wadah-portofolio" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-px bg-slate-200 border border-slate-200">
-                    <!-- Cards will be injected with minimal borders -->
+                <div id="wadah-portofolio" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-px bg-slate-200 dark:bg-slate-800 border border-slate-200 dark:border-slate-800">
+                    <!-- Cards -->
                 </div>
             </div>
         </section>
 
-        <!-- Contact: High Contrast CTA -->
-        <section id="kontak" class="py-24 md:py-40 bg-slate-950 text-white">
-            <div class="max-w-7xl mx-auto px-6 md:px-12 grid lg:grid-cols-2 gap-24 items-center">
-                <div class="space-y-10 reveal">
-                    <h2 class="text-6xl md:text-8xl font-black kerning-tight leading-[0.85]">START A <br><span class="text-brand-600">PROJECT?</span></h2>
-                    <p class="text-xl text-slate-400 font-light max-w-md">Bridging the gap between creative marketing and AI efficiency.</p>
-                    <div class="flex items-center space-x-6">
-                        <div class="w-12 h-12 bg-white/10 flex items-center justify-center">
-                            <div class="w-2 h-2 bg-brand-600 animate-pulse"></div>
-                        </div>
-                        <span class="text-[10px] font-bold uppercase tracking-[0.3em]">Currently accepting new inquiries</span>
-                    </div>
+        <!-- Contact Section (Build Your Impact) -->
+        <section id="kontak" class="py-16 md:py-32 bg-slate-950 text-white">
+            <div class="max-w-7xl mx-auto px-6 md:px-12 grid lg:grid-cols-2 gap-16 items-center">
+                <div class="space-y-6 reveal text-center lg:text-left">
+                    <h2 class="text-5xl md:text-7xl font-black kerning-tight leading-none uppercase">START A <br><span class="text-brand-600">PROJECT?</span></h2>
+                    <p class="text-base text-slate-400 font-light max-w-sm mx-auto lg:mx-0">Bridging the gap between creative marketing and AI efficiency.</p>
                 </div>
-                <div class="reveal bg-white p-8 md:p-14 text-slate-950" style="animation-delay: 0.2s">
+                <div class="reveal bg-white p-6 md:p-12 text-slate-950 shadow-2xl">
                     <form id="formKontak" onsubmit="kirimPesan(event)" class="space-y-8">
                         <div class="grid md:grid-cols-2 gap-8">
-                            <div class="border-b border-slate-200 focus-within:border-brand-600 transition-all pb-2">
-                                <label class="text-[9px] font-black uppercase tracking-widest text-slate-400 block mb-1">Your Name</label>
+                            <div class="border-b border-slate-200 focus-within:border-brand-600 transition-all pb-1">
+                                <label class="text-[8px] font-black uppercase tracking-widest text-slate-400 block mb-1">Your Name</label>
                                 <input type="text" id="nama" class="w-full bg-transparent outline-none font-bold text-sm" required>
                             </div>
-                            <div class="border-b border-slate-200 focus-within:border-brand-600 transition-all pb-2">
-                                <label class="text-[9px] font-black uppercase tracking-widest text-slate-400 block mb-1">Email Address</label>
+                            <div class="border-b border-slate-200 focus-within:border-brand-600 transition-all pb-1">
+                                <label class="text-[8px] font-black uppercase tracking-widest text-slate-400 block mb-1">Email Address</label>
                                 <input type="email" id="email" class="w-full bg-transparent outline-none font-bold text-sm" required>
                             </div>
                         </div>
-                        <div class="border-b border-slate-200 focus-within:border-brand-600 transition-all pb-2">
-                            <label class="text-[9px] font-black uppercase tracking-widest text-slate-400 block mb-1">Message</label>
+                        <div class="border-b border-slate-200 focus-within:border-brand-600 transition-all pb-1">
+                            <label class="text-[8px] font-black uppercase tracking-widest text-slate-400 block mb-1">Message</label>
                             <textarea id="pesan" class="w-full bg-transparent outline-none font-bold text-sm h-24 resize-none" required></textarea>
                         </div>
-                        <button type="submit" id="tombolKirim" class="w-full bg-slate-950 text-white p-5 font-black text-xs uppercase tracking-[0.4em] hover:bg-brand-600 transition-all">
+                        <button type="submit" id="tombolKirim" class="w-full bg-slate-950 text-white p-5 font-black text-[10px] uppercase tracking-[0.3em] hover:bg-brand-600 transition-all active:scale-95">
                             Send Request
                         </button>
                     </form>
@@ -250,19 +227,13 @@
         </section>
 
         <!-- Footer -->
-        <footer class="py-12 bg-slate-950 text-slate-500 border-t border-white/5">
-            <div class="max-w-7xl mx-auto px-6 md:px-12 flex flex-col md:flex-row justify-between items-center gap-10">
-                <p id="teks-footer" class="text-[10px] font-bold uppercase tracking-widest"></p>
-                <div class="flex items-center space-x-10">
-                    <a id="link-github" href="#" target="_blank" class="hover:text-white transition-all transform hover:-translate-y-1">
-                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"/></svg>
-                    </a>
-                    <a id="link-linkedin" href="#" target="_blank" class="hover:text-white transition-all transform hover:-translate-y-1">
-                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg>
-                    </a>
-                    <a id="link-instagram" href="#" target="_blank" class="hover:text-white transition-all transform hover:-translate-y-1">
-                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
-                    </a>
+        <footer class="py-10 bg-slate-950 text-slate-500 border-t border-white/5">
+            <div class="max-w-7xl mx-auto px-6 md:px-12 flex flex-col md:flex-row justify-between items-center gap-6">
+                <p id="teks-footer" class="text-[9px] font-bold uppercase tracking-widest"></p>
+                <div class="flex items-center space-x-6">
+                    <a id="link-github" href="#" target="_blank" class="hover:text-white transition-all transform hover:-translate-y-1"><svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"/></svg></a>
+                    <a id="link-linkedin" href="#" target="_blank" class="hover:text-white transition-all transform hover:-translate-y-1"><svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg></a>
+                    <a id="link-instagram" href="#" target="_blank" class="hover:text-white transition-all transform hover:-translate-y-1"><svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg></a>
                 </div>
             </div>
         </footer>
@@ -270,37 +241,32 @@
 
     <script>
         const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxWcY7C8KCUdLrF4yddLlrJr3SF9uxu_OWMjouDxGcjziqWc5GeCbfuLxv9ZL4-eELKYQ/exec'; 
-        let videoUrl = "";
 
-        // Spotlight interaction
         const spotlight = document.getElementById('spotlight');
         window.addEventListener('mousemove', (e) => {
-            spotlight.style.left = e.clientX + 'px';
-            spotlight.style.top = e.clientY + 'px';
+            spotlight.style.left = e.clientX + 'px'; spotlight.style.top = e.clientY + 'px';
         });
 
-        function openVideo() {
-            if(!videoUrl) return;
-            const modal = document.getElementById('video-modal');
-            const iframe = document.getElementById('video-frame');
-            iframe.src = videoUrl + (videoUrl.includes('?') ? '&' : '?') + "autoplay=1";
-            modal.style.opacity = '1';
-            modal.style.pointerEvents = 'auto';
+        function toggleTheme() {
+            const body = document.body;
+            const isDark = body.classList.toggle('dark-theme');
+            body.classList.toggle('light-theme');
+            document.documentElement.classList.toggle('dark');
+            document.getElementById('theme-icon-light').classList.toggle('hidden');
+            document.getElementById('theme-icon-dark').classList.toggle('hidden');
+            localStorage.setItem('theme', isDark ? 'dark' : 'light');
         }
 
-        function closeVideo() {
-            const modal = document.getElementById('video-modal');
-            const iframe = document.getElementById('video-frame');
-            modal.style.opacity = '0';
-            modal.style.pointerEvents = 'none';
-            setTimeout(() => iframe.src = "", 500);
+        if (localStorage.getItem('theme') === 'dark') {
+            document.body.classList.add('dark-theme'); document.body.classList.remove('light-theme');
+            document.documentElement.classList.add('dark');
+            document.getElementById('theme-icon-light').classList.remove('hidden');
+            document.getElementById('theme-icon-dark').classList.add('hidden');
         }
 
         const menuToggle = document.getElementById('menu-toggle');
         const mobileMenu = document.getElementById('mobile-menu');
-        menuToggle.addEventListener('click', () => {
-            mobileMenu.classList.toggle('open');
-        });
+        menuToggle.addEventListener('click', () => { mobileMenu.classList.toggle('open'); });
         document.querySelectorAll('.mobile-link').forEach(link => {
             link.addEventListener('click', () => mobileMenu.classList.remove('open'));
         });
@@ -309,61 +275,44 @@
             try {
                 const response = await fetch(SCRIPT_URL);
                 const data = await response.json();
-
                 ['teks-logo', 'teks-nama', 'teks-status', 'teks-deskripsi-hero', 'teks-judul-tentang', 'teks-deskripsi-tentang', 'teks-footer'].forEach(id => {
                     const el = document.getElementById(id);
                     if(el) el.innerText = data[id] || "";
                 });
-
-                if(data['link-video-hero']) {
-                    videoUrl = data['link-video-hero'];
-                    document.getElementById('btn-video').classList.remove('hidden');
-                }
-
                 if(data['warna-tema']) document.documentElement.style.setProperty('--brand-main', data['warna-tema']);
                 if(data['link-foto-profil']) document.getElementById('link-foto-profil').src = data['link-foto-profil'];
                 if(data['link-foto-tentang']) document.getElementById('link-foto-tentang').src = data['link-foto-tentang'];
-
                 ['link-github', 'link-linkedin', 'link-instagram'].forEach(id => {
                     if(data[id]) document.getElementById(id).href = data[id];
                 });
-
                 if(data['daftar-skill']) {
                     const box = document.getElementById('daftar-skill');
                     box.innerHTML = '';
                     data['daftar-skill'].split(',').forEach(skill => {
-                        box.innerHTML += `<div class="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400 py-1 border-b border-slate-50">${skill.trim()}</div>`;
+                        box.innerHTML += `<div class="text-[9px] font-bold uppercase tracking-[0.2em] text-slate-400 dark:text-slate-500 py-1 border-b border-slate-50 dark:border-slate-900">${skill.trim()}</div>`;
                     });
                 }
-
                 if(data.portofolio) {
                     const container = document.getElementById('wadah-portofolio');
                     container.innerHTML = '';
                     data.portofolio.forEach((item, i) => {
                         container.innerHTML += `
-                            <div class="group bg-white p-8 space-y-6 reveal" style="animation-delay: ${i*0.1}s">
+                            <div class="group bg-white dark:bg-slate-950 p-6 space-y-4 reveal" style="animation-delay: ${i*0.1}s">
                                 <div class="overflow-hidden aspect-video relative">
-                                    <img src="${item.gambar}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-1000 grayscale group-hover:grayscale-0">
-                                    <div class="absolute top-4 left-4 bg-white px-3 py-1 text-[8px] font-black uppercase tracking-widest">${item.kategori}</div>
+                                    <img src="${item.gambar}" class="w-full h-full object-cover group-hover:scale-105 transition-all duration-700 grayscale group-hover:grayscale-0">
                                 </div>
-                                <div class="space-y-3">
-                                    <h4 class="text-2xl font-black kerning-tight leading-tight uppercase">${item.judul}</h4>
-                                    <p class="text-slate-500 text-[11px] leading-relaxed line-clamp-2 uppercase tracking-wide">${item.deskripsi}</p>
+                                <div class="space-y-2">
+                                    <span class="text-[7px] font-black uppercase tracking-widest text-brand-600">${item.kategori}</span>
+                                    <h4 class="text-xl font-black kerning-tight leading-tight uppercase dark:text-white">${item.judul}</h4>
+                                    <p class="text-slate-500 text-[10px] leading-relaxed line-clamp-2 uppercase tracking-wide">${item.deskripsi}</p>
                                 </div>
                             </div>`;
                     });
                 }
-
                 document.body.classList.add('content-ready');
                 document.getElementById('loader').style.opacity = '0';
-                setTimeout(() => {
-                    document.getElementById('loader').style.display = 'none';
-                    initReveal();
-                }, 700);
-
-            } catch (err) {
-                console.error("UI Error:", err);
-            }
+                setTimeout(() => { document.getElementById('loader').style.display = 'none'; initReveal(); }, 700);
+            } catch (err) { console.error("UI Error:", err); }
         }
 
         function initReveal() {
@@ -382,7 +331,7 @@
         async function kirimPesan(e) {
             e.preventDefault();
             const b = document.getElementById('tombolKirim');
-            b.disabled = true; b.innerHTML = "Processing...";
+            b.disabled = true; b.innerHTML = "DISPATCHING...";
             const fd = new FormData();
             fd.append('nama', document.getElementById('nama').value);
             fd.append('email', document.getElementById('email').value);
@@ -391,11 +340,8 @@
                 await fetch(SCRIPT_URL, { method: 'POST', body: fd });
                 alert("MESSAGE DISPATCHED.");
                 document.getElementById('formKontak').reset();
-            } finally {
-                b.disabled = false; b.innerHTML = "Send Request";
-            }
+            } finally { b.disabled = false; b.innerHTML = "Send Request"; }
         }
-
         document.addEventListener('DOMContentLoaded', loadContent);
     </script>
 </body>
