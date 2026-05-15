@@ -304,6 +304,20 @@
         // Variabel global untuk menyimpan data porto agar bisa diakses modal
         let dataPortofolioGlobal = [];
 
+        // ALAT BANTU: Konversi otomatis link Google Drive menjadi Direct Image Link
+        function getDirectImageUrl(url) {
+            if (!url) return 'https://via.placeholder.com/800x600?text=No+Image';
+            url = url.trim();
+            // Cek jika link mengandung format Google Drive
+            const driveRegex = /drive\.google\.com\/file\/d\/([a-zA-Z0-9_-]+)/;
+            const match = url.match(driveRegex);
+            if (match && match[1]) {
+                // Ubah menjadi mode download langsung agar bisa dirender sebagai <img>
+                return `https://drive.google.com/uc?export=view&id=${match[1]}`;
+            }
+            return url; // Jika bukan google drive, kembalikan link aslinya
+        }
+
         const spotlight = document.getElementById('spotlight');
         window.addEventListener('mousemove', (e) => {
             spotlight.style.left = e.clientX + 'px'; spotlight.style.top = e.clientY + 'px';
@@ -347,8 +361,10 @@
                 });
                 
                 if(data['warna-tema']) document.documentElement.style.setProperty('--brand-main', data['warna-tema']);
-                if(data['link-foto-profil']) document.getElementById('link-foto-profil').src = data['link-foto-profil'];
-                if(data['link-foto-tentang']) document.getElementById('link-foto-tentang').src = data['link-foto-tentang'];
+                
+                // Konversi foto profil & tentang jika itu link Google Drive
+                if(data['link-foto-profil']) document.getElementById('link-foto-profil').src = getDirectImageUrl(data['link-foto-profil']);
+                if(data['link-foto-tentang']) document.getElementById('link-foto-tentang').src = getDirectImageUrl(data['link-foto-tentang']);
                 
                 ['link-github', 'link-linkedin', 'link-instagram'].forEach(id => {
                     if(data[id]) document.getElementById(id).href = data[id];
@@ -368,15 +384,18 @@
                     container.innerHTML = '';
                     
                     data.portofolio.forEach((item, index) => {
-                        // LOGIKA GAMBAR YANG DIPERBAIKI (LEBIH AMAN)
-                        let coverImg = 'https://via.placeholder.com/800x600?text=No+Image';
+                        // Logika Gambar (Aman untuk format API Baru & Lama)
+                        let rawImg = '';
                         if (Array.isArray(item.gambar) && item.gambar.length > 0 && item.gambar[0].trim() !== "") {
-                            coverImg = item.gambar[0]; // Jika API baru jalan (Array)
+                            rawImg = item.gambar[0]; // Format API baru
                         } else if (typeof item.gambar === 'string' && item.gambar.trim() !== '') {
-                            // Memisahkan dengan koma manual di frontend sebagai fallback
+                            // Format API lama
                             const splitGambar = item.gambar.split(',');
-                            coverImg = splitGambar[0].trim();
+                            rawImg = splitGambar[0].trim();
                         }
+                        
+                        // Eksekusi fungsi pengubah link Google Drive
+                        let coverImg = getDirectImageUrl(rawImg);
                         
                         container.innerHTML += `
                             <div onclick="openModal(${index})" class="group cursor-pointer bg-white dark:bg-slate-950 border border-slate-200 dark:border-slate-800 hover:border-brand-600 dark:hover:border-brand-600 transition-all duration-300 reveal flex flex-col shadow-sm hover:shadow-2xl hover:shadow-brand-600/10 hover:-translate-y-2" style="animation-delay: ${index*0.1}s">
@@ -407,11 +426,15 @@
         }
 
         // ==========================================
-        // FUNGSI UNTUK MODAL PORTOFOLIO
+        // FUNGSI UNTUK MODAL PORTOFOLIO (Halaman Detail)
         // ==========================================
         function openModal(index) {
             const data = dataPortofolioGlobal[index];
             if(!data) return;
+
+            // Pastikan scroll langsung ke atas saat dibuka
+            const modal = document.getElementById('project-modal');
+            modal.scrollTo(0, 0);
 
             // Set Teks
             document.getElementById('modal-judul').innerText = data.judul;
@@ -427,22 +450,32 @@
                 });
             }
 
-            // Render Multi-Gambar
+            // Render Multi-Gambar untuk di dalam detail
             const gallery = document.getElementById('modal-gallery');
             gallery.innerHTML = '';
-            if(data.gambar && data.gambar.length > 0) {
-                data.gambar.forEach(imgUrl => {
-                    if(imgUrl) {
-                        gallery.innerHTML += `<img src="${imgUrl}" alt="${data.judul}" class="w-full max-w-4xl h-auto object-cover border border-slate-100 dark:border-slate-900 shadow-xl">`;
+            
+            // Cek format array (baru) atau string ber-koma (lama)
+            let imgArray = [];
+            if (Array.isArray(data.gambar)) {
+                imgArray = data.gambar;
+            } else if (typeof data.gambar === 'string') {
+                imgArray = data.gambar.split(',');
+            }
+
+            if(imgArray && imgArray.length > 0) {
+                imgArray.forEach(imgUrl => {
+                    if(imgUrl && imgUrl.trim() !== '') {
+                        let finalUrl = getDirectImageUrl(imgUrl);
+                        gallery.innerHTML += `<img src="${finalUrl}" alt="${data.judul}" class="w-full max-w-4xl h-auto object-cover border border-slate-100 dark:border-slate-900 shadow-xl mb-4">`;
                     }
                 });
             }
 
-            // Set Tombol Aksi
+            // Set Tombol Aksi Kunjungan Proyek (Ini yang melempar tab jika diklik)
             const btnLink = document.getElementById('modal-link-aksi');
             const noLinkText = document.getElementById('modal-no-link');
             
-            if(data.linkTujuan && data.linkTujuan.trim() !== "") {
+            if(data.linkTujuan && data.linkTujuan.trim() !== "" && data.linkTujuan.startsWith("http")) {
                 btnLink.href = data.linkTujuan;
                 btnLink.style.display = 'inline-flex';
                 noLinkText.style.display = 'none';
@@ -451,12 +484,11 @@
                 noLinkText.style.display = 'block';
             }
 
-            // Tampilkan Modal
-            const modal = document.getElementById('project-modal');
+            // Tampilkan Modal secara full-screen
             modal.classList.remove('pointer-events-none');
             modal.classList.remove('opacity-0');
             modal.classList.add('opacity-100');
-            document.body.style.overflow = 'hidden'; // Matikan scroll background
+            document.body.style.overflow = 'hidden'; // Matikan scroll website asli di belakangnya
         }
 
         function closeModal() {
@@ -464,7 +496,7 @@
             modal.classList.add('opacity-0');
             modal.classList.add('pointer-events-none');
             modal.classList.remove('opacity-100');
-            document.body.style.overflow = ''; // Nyalakan scroll kembali
+            document.body.style.overflow = ''; // Nyalakan scroll website kembali
         }
 
         // ==========================================
