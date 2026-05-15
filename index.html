@@ -64,6 +64,12 @@
             mask-image: linear-gradient(to bottom, rgba(0,0,0,1) 65%, rgba(0,0,0,0) 100%);
         }
 
+        /* Efek Brush Tipis di Keliling Cover Portofolio */
+        .mask-soft-edges {
+            -webkit-mask-image: radial-gradient(ellipse, rgba(0,0,0,1) 75%, rgba(0,0,0,0) 100%);
+            mask-image: radial-gradient(ellipse, rgba(0,0,0,1) 75%, rgba(0,0,0,0) 100%);
+        }
+
         /* Animasi Mengambang (Floating) untuk Ikon AI */
         @keyframes float {
             0%, 100% { transform: translateY(0px) rotate(0deg); }
@@ -162,7 +168,8 @@
                     <a href="#tentang" class="mobile-link text-4xl sm:text-5xl font-black kerning-tight hover:text-brand-600 dark:text-white uppercase transition-colors">About</a>
                     <a href="#portofolio" class="mobile-link text-4xl sm:text-5xl font-black kerning-tight hover:text-brand-600 dark:text-white uppercase transition-colors">Portfolio</a>
                     <div class="pt-8 border-t border-slate-200 dark:border-slate-800 w-32 mx-auto"></div>
-                    <button onclick="toggleTheme(); document.getElementById('mobile-menu').classList.remove('open');" class="text-sm font-bold uppercase tracking-[0.3em] text-brand-600 py-3">Switch Theme</button>
+                    <!-- BUG FIX SCROLL: Ditambahkan document.body.style.overflow = ''; saat Switch Theme diklik -->
+                    <button onclick="toggleTheme(); document.getElementById('mobile-menu').classList.remove('open'); document.body.style.overflow = '';" class="text-sm font-bold uppercase tracking-[0.3em] text-brand-600 py-3">Switch Theme</button>
                 </nav>
             </div>
         </header>
@@ -186,27 +193,25 @@
                 </div>
 
                 <div class="lg:col-span-5 reveal active order-1 lg:order-2 flex flex-col items-center relative pt-4 md:pt-0">
-                    <!-- Wrapper utama agar elemen dekoratif (saturn ring & icon AI) tidak ikut terpotong efek mask -->
                     <div id="profile-wrapper" class="relative w-full max-w-[280px] sm:max-w-sm md:max-w-md lg:max-w-full mx-auto">
                         
-                        <!-- Floating AI Icons Background -->
+                        <!-- Floating AI Icons Background (DIUBAH & DIPERKECIL SESUAI PERMINTAAN) -->
                         <div class="absolute inset-0 z-0 pointer-events-none">
                             <!-- ChatGPT -->
-                            <img src="https://upload.wikimedia.org/wikipedia/commons/0/04/ChatGPT_logo.svg" class="absolute -top-2 left-2 w-6 h-6 sm:w-7 sm:h-7 opacity-10 dark:opacity-20 animate-[float_4s_ease-in-out_infinite]">
+                            <img src="https://upload.wikimedia.org/wikipedia/commons/0/04/ChatGPT_logo.svg" class="absolute -top-2 left-2 w-6 h-6 sm:w-7 sm:h-7 opacity-20 dark:opacity-30 animate-[float_4s_ease-in-out_infinite]">
                             <!-- Gemini -->
-                            <img src="https://www.gstatic.com/lamda/images/gemini_sparkle_v002_d4735304ff6292a690345.svg" class="absolute top-1/4 -right-4 w-7 h-7 sm:w-8 sm:h-8 opacity-10 dark:opacity-20 animate-[float_5s_ease-in-out_infinite_1s]">
+                            <img src="https://www.gstatic.com/lamda/images/gemini_sparkle_v002_d4735304ff6292a690345.svg" class="absolute top-1/4 -right-4 w-7 h-7 sm:w-8 sm:h-8 opacity-20 dark:opacity-30 animate-[float_5s_ease-in-out_infinite_1s]">
                             <!-- Google Workspace -->
-                            <img src="https://upload.wikimedia.org/wikipedia/commons/5/5f/Google_Workspace_Logo.svg" class="absolute top-1/2 -left-6 w-5 h-5 sm:w-6 sm:h-6 opacity-10 dark:opacity-20 filter grayscale animate-[float_6s_ease-in-out_infinite_2s]">
-                            <!-- Grok (X) -->
-                            <img src="https://upload.wikimedia.org/wikipedia/commons/c/ce/X_logo_2023.svg" class="absolute bottom-1/4 -right-2 w-4 h-4 sm:w-5 sm:h-5 opacity-10 dark:opacity-20 dark:invert animate-[float_4.5s_ease-in-out_infinite_0.5s]">
-                            <!-- Claude (Anthropic / AI Brain Star) -->
-                            <svg class="absolute -bottom-4 left-6 w-5 h-5 sm:w-6 sm:h-6 opacity-10 dark:opacity-20 text-slate-800 dark:text-white animate-[float_5.5s_ease-in-out_infinite_1.5s]" viewBox="0 0 24 24" fill="currentColor">
-                                <path d="M12 2L14.5 9.5L22 12L14.5 14.5L12 22L9.5 14.5L2 12L9.5 9.5L12 2Z"/>
+                            <img src="https://upload.wikimedia.org/wikipedia/commons/5/5f/Google_Workspace_Logo.svg" class="absolute top-1/2 -left-6 w-5 h-5 sm:w-6 sm:h-6 opacity-20 dark:opacity-30 filter grayscale animate-[float_6s_ease-in-out_infinite_2s]">
+                            <!-- Google Apps Script -->
+                            <img src="https://upload.wikimedia.org/wikipedia/commons/2/2f/Google_Apps_Script.svg" class="absolute bottom-1/4 -right-2 w-5 h-5 sm:w-6 sm:h-6 opacity-20 dark:opacity-30 animate-[float_4.5s_ease-in-out_infinite_0.5s]">
+                            <!-- Claude AI (Anthropic style Sparkle/Star) -->
+                            <svg class="absolute -bottom-4 left-6 w-6 h-6 sm:w-7 sm:h-7 opacity-20 dark:opacity-30 text-slate-800 dark:text-white animate-[float_5.5s_ease-in-out_infinite_1.5s]" viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M12 2C12 7.5 16.5 12 22 12C16.5 12 12 16.5 12 22C12 16.5 7.5 12 2 12C7.5 12 12 7.5 12 2Z"/>
                             </svg>
-                            <!-- Dreamina / Sparkles -->
-                            <svg class="absolute -top-6 right-10 w-4 h-4 sm:w-5 sm:h-5 opacity-10 dark:opacity-20 text-slate-800 dark:text-white animate-[float_6.5s_ease-in-out_infinite_2.5s]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                <path d="M9.5 2L11.5 7.5L17 9.5L11.5 11.5L9.5 17L7.5 11.5L2 9.5L7.5 7.5L9.5 2Z"/>
-                                <path d="M19 15L19.5 17.5L22 18L19.5 18.5L19 21L18.5 18.5L16 18L18.5 17.5L19 15Z"/>
+                            <!-- Dreamina (Magic Wand/Stars) -->
+                            <svg class="absolute -top-6 right-10 w-6 h-6 sm:w-7 sm:h-7 opacity-20 dark:opacity-30 text-slate-800 dark:text-white animate-[float_6.5s_ease-in-out_infinite_2.5s]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                                <path d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-6.857 2.286L12 21l-2.286-6.857L5 12l2.286-2.286z"/>
                             </svg>
                         </div>
 
@@ -273,7 +278,7 @@
                 </div>
                 
                 <!-- Tempat merender kartu portofolio -->
-                <div id="wadah-portofolio" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
+                <div id="wadah-portofolio" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-10">
                     <!-- Cards disuntik dari JS -->
                 </div>
             </div>
@@ -548,21 +553,23 @@
                         
                         let coverImg = getDirectImageUrl(rawCover);
                         
-                        // DIUBAH MENJADI ASPECT-5/4
+                        // DIUBAH MENJADI ASPECT-5/4, TRANPARENT BACKGROUND, ALIGN CENTER, TEXT CENTER
                         container.innerHTML += `
-                            <div onclick="openModal(${index})" class="group cursor-pointer bg-white dark:bg-slate-950 transition-all duration-300 reveal flex flex-col shadow-sm hover:shadow-xl md:hover:shadow-2xl hover:shadow-brand-600/10 hover:-translate-y-1 md:hover:-translate-y-2" style="animation-delay: ${index*0.1}s">
-                                <div class="overflow-hidden aspect-[5/4] relative">
+                            <div onclick="openModal(${index})" class="group cursor-pointer bg-transparent transition-all duration-300 reveal flex flex-col hover:-translate-y-2" style="animation-delay: ${index*0.1}s">
+                                <!-- Box Gambar dengan Mask Soft Edges -->
+                                <div class="overflow-hidden aspect-[5/4] relative mask-soft-edges rounded-xl">
                                     <img src="${coverImg}" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700">
-                                    <div class="absolute inset-0 bg-slate-900/0 group-hover:bg-slate-900/30 transition-all duration-300 flex items-center justify-center">
-                                        <div class="opacity-0 group-hover:opacity-100 transform translate-y-4 group-hover:translate-y-0 transition-all duration-300 bg-white text-slate-950 px-4 md:px-6 py-2 md:py-3 text-[8px] md:text-[9px] font-black uppercase tracking-widest flex items-center space-x-2">
+                                    <div class="absolute inset-0 bg-brand-900/0 group-hover:bg-brand-900/20 transition-all duration-300 flex items-center justify-center">
+                                        <div class="opacity-0 group-hover:opacity-100 transform translate-y-4 group-hover:translate-y-0 transition-all duration-300 bg-white text-slate-950 px-6 py-3 text-[10px] font-black uppercase tracking-widest flex items-center space-x-2 rounded-full shadow-xl">
                                             <span>View Detail</span>
-                                            <svg class="w-3 h-3 md:w-4 md:h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
+                                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
                                         </div>
                                     </div>
                                 </div>
-                                <div class="p-5 md:p-8 flex-1 flex flex-col justify-center space-y-2 md:space-y-3">
-                                    <span class="text-[7px] md:text-[8px] font-black uppercase tracking-[0.3em] text-brand-600">${item.kategori}</span>
-                                    <h4 class="text-xl md:text-2xl font-black kerning-tight leading-tight uppercase dark:text-white group-hover:text-brand-600 transition-colors">${item.judul}</h4>
+                                <!-- Kontainer Teks di bawah gambar (Rata Tengah) -->
+                                <div class="pt-6 flex-1 flex flex-col justify-start items-center text-center space-y-3">
+                                    <span class="text-[9px] font-black uppercase tracking-[0.4em] text-brand-600">${item.kategori}</span>
+                                    <h4 class="text-2xl font-black kerning-tight leading-tight uppercase dark:text-white group-hover:text-brand-600 transition-colors">${item.judul}</h4>
                                 </div>
                             </div>`;
                     });
