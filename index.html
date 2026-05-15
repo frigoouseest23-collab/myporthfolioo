@@ -174,7 +174,7 @@
             </div>
         </section>
 
-        <!-- About Section (DIROMBAK: Align Center, 16:9, Expert Ikon) -->
+        <!-- About Section (DIROMBAK: Align Center, 16:9, Expert Ikon, Image Slider) -->
         <section id="tentang" class="py-20 md:py-32 bg-white dark:bg-slate-950 border-b border-slate-100 dark:border-slate-900 overflow-hidden">
             <div class="max-w-5xl mx-auto px-6 md:px-12 text-center flex flex-col items-center space-y-12 md:space-y-16">
                 
@@ -184,9 +184,13 @@
                     <h3 class="text-4xl md:text-5xl lg:text-6xl font-black kerning-tight leading-tight dark:text-white uppercase max-w-3xl" id="teks-judul-tentang"></h3>
                 </div>
 
-                <!-- Gambar About (16:9 Aspect Ratio & Mask) -->
-                <div class="reveal overflow-hidden group mask-bottom-fade w-full max-w-4xl shadow-2xl">
-                    <img id="link-foto-tentang" src="" alt="About" class="w-full aspect-video object-cover filter brightness-95 transform group-hover:scale-105 transition-transform duration-1000">
+                <!-- Gambar About (Slider 16:9 Aspect Ratio & Mask) -->
+                <div class="reveal relative w-full max-w-4xl">
+                    <div id="about-image-container" class="overflow-hidden group mask-bottom-fade w-full shadow-2xl relative aspect-video bg-slate-100 dark:bg-slate-900">
+                        <!-- Images akan disuntik di sini oleh JS untuk jadi Slider -->
+                    </div>
+                    <!-- Indikator Titik Slider (Diletakkan di luar mask agar tetap terlihat) -->
+                    <div id="about-slider-dots" class="absolute bottom-[15%] md:bottom-[20%] left-0 right-0 z-20 flex justify-center space-x-3 pointer-events-none"></div>
                 </div>
 
                 <!-- Deskripsi & Expertise Icons -->
@@ -389,9 +393,59 @@
                 
                 if(data['warna-tema']) document.documentElement.style.setProperty('--brand-main', data['warna-tema']);
                 
-                // Konversi foto profil & tentang jika itu link Google Drive
+                // Konversi foto profil
                 if(data['link-foto-profil']) document.getElementById('link-foto-profil').src = getDirectImageUrl(data['link-foto-profil']);
-                if(data['link-foto-tentang']) document.getElementById('link-foto-tentang').src = getDirectImageUrl(data['link-foto-tentang']);
+                
+                // ==========================================
+                // SLIDER FOTO ABOUT ME
+                // ==========================================
+                if(data['link-foto-tentang']) {
+                    const aboutContainer = document.getElementById('about-image-container');
+                    const dotsContainer = document.getElementById('about-slider-dots');
+                    
+                    // Memecah teks link menjadi array gambar
+                    const aboutImages = data['link-foto-tentang'].toString().split(',')
+                                        .map(url => getDirectImageUrl(url.trim()))
+                                        .filter(url => url !== '');
+                    
+                    if(aboutImages.length === 1) {
+                        // Jika hanya 1 gambar, tampilkan seperti biasa
+                        aboutContainer.innerHTML = `<img src="${aboutImages[0]}" alt="About" class="w-full h-full object-cover filter brightness-95 transform group-hover:scale-105 transition-transform duration-1000">`;
+                        dotsContainer.innerHTML = '';
+                    } else if (aboutImages.length > 1) {
+                        // Jika ada banyak gambar, jadikan Slider Fading otomatis
+                        aboutContainer.innerHTML = aboutImages.map((src, i) => `
+                            <img src="${src}" alt="About ${i+1}" class="absolute inset-0 w-full h-full object-cover filter brightness-95 transform group-hover:scale-105 transition-all duration-1000 ${i === 0 ? 'opacity-100 z-10' : 'opacity-0 z-0'} about-slide-img">
+                        `).join('');
+                        
+                        // Menambahkan Indikator Titik (Dots)
+                        dotsContainer.innerHTML = aboutImages.map((_, i) => `
+                            <div class="w-2 h-2 rounded-full transition-all duration-500 about-slide-dot ${i === 0 ? 'bg-brand-600 scale-150' : 'bg-white/60'}"></div>
+                        `).join('');
+
+                        let currentSlide = 0;
+                        const slides = aboutContainer.querySelectorAll('.about-slide-img');
+                        const dots = dotsContainer.querySelectorAll('.about-slide-dot');
+                        
+                        // Timer ganti slide setiap 3.5 Detik
+                        setInterval(() => {
+                            // Matikan slide & dot saat ini
+                            slides[currentSlide].classList.remove('opacity-100', 'z-10');
+                            slides[currentSlide].classList.add('opacity-0', 'z-0');
+                            dots[currentSlide].classList.remove('bg-brand-600', 'scale-150');
+                            dots[currentSlide].classList.add('bg-white/60');
+                            
+                            // Hitung index slide selanjutnya
+                            currentSlide = (currentSlide + 1) % slides.length;
+                            
+                            // Nyalakan slide & dot selanjutnya
+                            slides[currentSlide].classList.remove('opacity-0', 'z-0');
+                            slides[currentSlide].classList.add('opacity-100', 'z-10');
+                            dots[currentSlide].classList.remove('bg-white/60');
+                            dots[currentSlide].classList.add('bg-brand-600', 'scale-150');
+                        }, 3500);
+                    }
+                }
                 
                 ['link-github', 'link-linkedin', 'link-instagram'].forEach(id => {
                     if(data[id]) document.getElementById(id).href = data[id];
