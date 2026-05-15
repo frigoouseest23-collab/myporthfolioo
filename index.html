@@ -258,7 +258,7 @@
     <!-- ============================================== -->
     <!-- OVERLAY FULLSCREEN MODAL UNTUK DETAIL PORTFOLIO -->
     <!-- ============================================== -->
-    <div id="project-modal" class="fixed inset-0 z-[100] bg-white dark:bg-slate-950 flex-col overflow-y-auto opacity-0 pointer-events-none transition-opacity duration-500">
+    <div id="project-modal" class="fixed inset-0 z-[100] bg-white dark:bg-slate-950 flex-col overflow-x-hidden overflow-y-auto opacity-0 pointer-events-none transition-opacity duration-500">
         <!-- Sticky Header with Close Button -->
         <div class="sticky top-0 z-50 bg-white/90 dark:bg-slate-950/90 backdrop-blur-md border-b border-slate-200 dark:border-slate-800 p-4 flex justify-between items-center px-6 md:px-12">
             <span class="text-[10px] font-black uppercase tracking-widest text-slate-400">Project Overview</span>
@@ -268,7 +268,8 @@
         </div>
 
         <!-- Detail Content -->
-        <div class="max-w-5xl mx-auto px-6 md:px-12 py-16 w-full">
+        <div class="max-w-5xl mx-auto px-6 md:px-12 pt-16 pb-0 w-full flex-grow flex flex-col">
+            
             <!-- Header Text -->
             <div class="mb-12 text-center max-w-3xl mx-auto space-y-6">
                 <span id="modal-kategori" class="text-[10px] font-black uppercase tracking-[0.4em] text-brand-600">Kategori</span>
@@ -281,18 +282,30 @@
             </div>
 
             <!-- Dynamic Image Gallery -->
-            <div id="modal-gallery" class="space-y-8 flex flex-col items-center w-full mb-16">
+            <div id="modal-gallery" class="space-y-8 flex flex-col items-center w-full mb-12">
                 <!-- Gambar disuntik dari JS -->
             </div>
+        </div>
 
-            <!-- Action Button Area -->
-            <div class="text-center py-10 border-t border-slate-200 dark:border-slate-800">
-                <h4 class="text-2xl font-black uppercase kerning-tight dark:text-white mb-6">Want to see it live?</h4>
-                <a id="modal-link-aksi" href="#" target="_blank" class="inline-flex items-center space-x-4 bg-slate-950 dark:bg-white text-white dark:text-slate-950 px-10 py-5 font-black text-[11px] uppercase tracking-[0.3em] hover:bg-brand-600 dark:hover:bg-brand-600 hover:text-white transition-all shadow-xl hover:shadow-brand-600/30">
-                    <span>Visit Project</span>
-                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path></svg>
-                </a>
-                <p id="modal-no-link" class="text-sm text-slate-500 italic hidden mt-4">Link tidak tersedia untuk proyek ini.</p>
+        <!-- Action Button Area (Bagian Bawah Gelap/Kontras) -->
+        <div class="w-full bg-slate-50 dark:bg-slate-900/50 border-t border-slate-200 dark:border-slate-800 py-20 px-6 mt-auto">
+            <div class="max-w-3xl mx-auto text-center">
+                <h4 class="text-3xl md:text-4xl font-black uppercase kerning-tight text-slate-900 dark:text-white mb-4">Want to see it live?</h4>
+                <p id="modal-no-link" class="text-sm text-slate-500 font-light hidden mb-8">Link tidak tersedia untuk proyek ini.</p>
+                
+                <div class="flex flex-col sm:flex-row items-center justify-center gap-4 md:gap-6 mt-10">
+                    <!-- Tombol Aksi Kunjungi Web -->
+                    <a id="modal-link-aksi" href="#" target="_blank" class="w-full sm:w-auto inline-flex justify-center items-center space-x-4 bg-brand-600 text-white px-10 py-5 font-black text-[11px] uppercase tracking-[0.3em] hover:bg-slate-900 dark:hover:bg-white dark:hover:text-slate-950 transition-all shadow-xl hover:-translate-y-1">
+                        <span>Visit Project</span>
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path></svg>
+                    </a>
+
+                    <!-- Tombol Back / Close -->
+                    <button onclick="closeModal()" class="w-full sm:w-auto inline-flex justify-center items-center space-x-4 bg-transparent border-2 border-slate-900 dark:border-white text-slate-900 dark:text-white px-10 py-5 font-black text-[11px] uppercase tracking-[0.3em] hover:bg-slate-900 hover:text-white dark:hover:bg-white dark:hover:text-slate-950 transition-all hover:-translate-y-1 cursor-pointer">
+                        <svg class="w-5 h-5 transform rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
+                        <span>Back to Portfolio</span>
+                    </button>
+                </div>
             </div>
         </div>
     </div>
@@ -421,7 +434,6 @@
                 setTimeout(() => { document.getElementById('loader').style.display = 'none'; initReveal(); }, 700);
             } catch (err) { 
                 console.error("UI Error:", err); 
-                alert("Gagal memuat data. Pastikan Anda telah melakukan Deploy ulang di Google Script setelah memperbarui code.gs");
             }
         }
 
