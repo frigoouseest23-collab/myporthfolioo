@@ -64,20 +64,20 @@
             mask-image: linear-gradient(to bottom, rgba(0,0,0,1) 65%, rgba(0,0,0,0) 100%);
         }
 
-        /* Animasi Cincin Saturnus (Klik Profil) */
+        /* Animasi Cincin Lingkaran Penuh (Klik Profil) */
         @keyframes saturnEffect {
-            0% { transform: translate(-50%, -50%) rotateX(75deg) scale(0.5); opacity: 1; border-width: 6px; }
-            100% { transform: translate(-50%, -50%) rotateX(75deg) scale(1.6); opacity: 0; border-width: 0px; }
+            0% { transform: translate(-50%, -50%) scale(0.8); opacity: 0.8; border-width: 4px; }
+            100% { transform: translate(-50%, -50%) scale(2); opacity: 0; border-width: 0px; }
         }
         .animate-saturn {
             position: absolute; top: 50%; left: 50%;
-            width: 120%; aspect-ratio: 1 / 1;
+            width: 100%; aspect-ratio: 1 / 1;
             border-radius: 50%;
             border-style: solid;
             border-color: var(--brand-main);
             box-shadow: 0 0 30px var(--brand-main), inset 0 0 30px var(--brand-main);
-            animation: saturnEffect 1.2s cubic-bezier(0.1, 0.8, 0.3, 1) forwards;
-            pointer-events: none; z-index: 30;
+            animation: saturnEffect 1s cubic-bezier(0.1, 0.8, 0.3, 1) forwards;
+            pointer-events: none; z-index: -1; /* Di belakang foto profil */
         }
     </style>
     <script>
@@ -167,13 +167,11 @@
                 </div>
 
                 <div class="lg:col-span-5 reveal active order-1 lg:order-2 flex flex-col items-center relative pt-4 md:pt-0">
-                    <!-- Ditambahkan Event onClick & ID khusus untuk Animasi Cincin Saturnus -->
                     <div id="profile-container" class="relative group mask-bottom-fade w-full max-w-[280px] sm:max-w-sm md:max-w-md lg:max-w-full mx-auto cursor-pointer" onclick="playSaturnRing()">
-                        <img id="link-foto-profil" src="" alt="Profile" class="w-full h-auto object-cover grayscale group-hover:grayscale-0 transform group-hover:scale-105 transition-all duration-700">
-                        <div class="absolute inset-0 bg-brand-600/10 opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none"></div>
+                        <img id="link-foto-profil" src="" alt="Profile" class="w-full h-auto object-cover grayscale group-hover:grayscale-0 transform group-hover:scale-105 transition-all duration-700 relative z-10">
+                        <div class="absolute inset-0 bg-brand-600/10 opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none z-20"></div>
                     </div>
                     
-                    <!-- EFEK TEKS PROFESI (Digeser lebih ke bawah sedikit) -->
                     <div class="absolute -bottom-8 md:-bottom-12 left-1/2 transform -translate-x-1/2 w-full text-center z-20 pointer-events-none px-4">
                         <span id="teks-profesi" class="relative z-10 text-[11px] sm:text-xs md:text-sm lg:text-base font-black uppercase tracking-[0.2em] md:tracking-[0.4em] text-slate-800 dark:text-slate-200 drop-shadow-2xl"></span>
                     </div>
