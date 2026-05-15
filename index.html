@@ -239,13 +239,13 @@
                     <h3 class="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-black kerning-tight leading-tight dark:text-white uppercase max-w-3xl" id="teks-judul-tentang"></h3>
                 </div>
 
-                <!-- Gambar About (DIUBAH: Hilangkan mask-bottom-fade & ubah aspect menjadi video konstan) -->
-                <div class="reveal relative w-full px-0">
-                    <div id="about-image-container" class="overflow-hidden group w-full shadow-2xl relative aspect-video bg-slate-100 dark:bg-slate-900 rounded-lg md:rounded-xl">
+                <!-- Gambar About -->
+                <div class="reveal relative w-full px-0 sm:px-4">
+                    <div id="about-image-container" class="overflow-hidden group w-full relative aspect-[4/3] md:aspect-video bg-transparent rounded-lg md:rounded-xl">
                         <!-- Images disuntik di sini oleh JS -->
                     </div>
                     <!-- Indikator Titik Slider -->
-                    <div id="about-slider-dots" class="absolute bottom-4 left-0 right-0 z-20 flex justify-center space-x-2 md:space-x-3 pointer-events-none"></div>
+                    <div id="about-slider-dots" class="absolute bottom-[10%] md:bottom-[15%] left-0 right-0 z-20 flex justify-center space-x-2 md:space-x-3 pointer-events-none"></div>
                 </div>
 
                 <!-- Deskripsi & Expertise Icons -->
@@ -478,15 +478,15 @@
                                         .filter(url => url !== '');
                     
                     if(aboutImages.length === 1) {
-                        aboutContainer.innerHTML = `<img src="${aboutImages[0]}" alt="About" class="w-full h-full object-cover filter brightness-95 transform hover:scale-105 transition-transform duration-1000">`;
+                        aboutContainer.innerHTML = `<img src="${aboutImages[0]}" alt="About" class="w-full h-full object-contain transform hover:scale-105 transition-transform duration-1000">`;
                         dotsContainer.innerHTML = '';
                     } else if (aboutImages.length > 1) {
                         aboutContainer.innerHTML = aboutImages.map((src, i) => `
-                            <img src="${src}" alt="About ${i+1}" class="absolute inset-0 w-full h-full object-cover filter brightness-95 transform hover:scale-105 transition-all duration-1000 ${i === 0 ? 'opacity-100 z-10' : 'opacity-0 z-0'} about-slide-img">
+                            <img src="${src}" alt="About ${i+1}" class="absolute inset-0 w-full h-full object-contain transform hover:scale-105 transition-all duration-1000 ${i === 0 ? 'opacity-100 z-10' : 'opacity-0 z-0'} about-slide-img">
                         `).join('');
                         
                         dotsContainer.innerHTML = aboutImages.map((_, i) => `
-                            <div class="w-1.5 h-1.5 md:w-2 md:h-2 rounded-full transition-all duration-500 about-slide-dot ${i === 0 ? 'bg-brand-600 scale-150' : 'bg-white/60'}"></div>
+                            <div class="w-1.5 h-1.5 md:w-2 md:h-2 rounded-full transition-all duration-500 about-slide-dot ${i === 0 ? 'bg-brand-600 scale-150' : 'bg-slate-300 dark:bg-slate-700'}"></div>
                         `).join('');
 
                         let currentSlide = 0;
@@ -497,13 +497,13 @@
                             slides[currentSlide].classList.remove('opacity-100', 'z-10');
                             slides[currentSlide].classList.add('opacity-0', 'z-0');
                             dots[currentSlide].classList.remove('bg-brand-600', 'scale-150');
-                            dots[currentSlide].classList.add('bg-white/60');
+                            dots[currentSlide].classList.add('bg-slate-300', 'dark:bg-slate-700');
                             
                             currentSlide = (currentSlide + 1) % slides.length;
                             
                             slides[currentSlide].classList.remove('opacity-0', 'z-0');
                             slides[currentSlide].classList.add('opacity-100', 'z-10');
-                            dots[currentSlide].classList.remove('bg-white/60');
+                            dots[currentSlide].classList.remove('bg-slate-300', 'dark:bg-slate-700');
                             dots[currentSlide].classList.add('bg-brand-600', 'scale-150');
                         }, 3500);
                     }
