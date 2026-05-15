@@ -65,10 +65,9 @@
         * { border-radius: 0 !important; }
         .kerning-tight { letter-spacing: -0.05em; }
 
-        /* Custom Scrollbar */
-        ::-webkit-scrollbar { width: 8px; }
-        ::-webkit-scrollbar-track { background: transparent; }
-        ::-webkit-scrollbar-thumb { background: var(--brand-main); }
+        /* Sembunyikan Scrollbar tapi tetap bisa di-scroll */
+        ::-webkit-scrollbar { display: none; width: 0; }
+        html, body, div { scrollbar-width: none; -ms-overflow-style: none; }
     </style>
     <script>
         tailwind.config = {
