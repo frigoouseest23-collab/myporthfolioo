@@ -409,18 +409,18 @@
                     container.innerHTML = '';
                     
                     data.portofolio.forEach((item, index) => {
-                        // Logika Gambar (Aman untuk format API Baru & Lama)
-                        let rawImg = '';
-                        if (Array.isArray(item.gambar) && item.gambar.length > 0 && item.gambar[0].trim() !== "") {
-                            rawImg = item.gambar[0]; // Format API baru
-                        } else if (typeof item.gambar === 'string' && item.gambar.trim() !== '') {
-                            // Format API lama
-                            const splitGambar = item.gambar.split(',');
-                            rawImg = splitGambar[0].trim();
+                        // LOGIKA COVER BARU: Prioritaskan kolom khusus cover. Jika tidak ada, gunakan data gambar lama.
+                        let rawCover = item.cover || '';
+                        if (!rawCover) {
+                            if (Array.isArray(item.gambar) && item.gambar.length > 0) {
+                                rawCover = item.gambar[0];
+                            } else if (typeof item.gambar === 'string' && item.gambar.trim() !== '') {
+                                rawCover = item.gambar.split(',')[0].trim();
+                            }
                         }
                         
                         // Eksekusi fungsi pengubah link Google Drive
-                        let coverImg = getDirectImageUrl(rawImg);
+                        let coverImg = getDirectImageUrl(rawCover);
                         
                         container.innerHTML += `
                             <div onclick="openModal(${index})" class="group cursor-pointer bg-white dark:bg-slate-950 border border-slate-200 dark:border-slate-800 hover:border-brand-600 dark:hover:border-brand-600 transition-all duration-300 reveal flex flex-col shadow-sm hover:shadow-2xl hover:shadow-brand-600/10 hover:-translate-y-2" style="animation-delay: ${index*0.1}s">
@@ -478,11 +478,13 @@
             const gallery = document.getElementById('modal-gallery');
             gallery.innerHTML = '';
             
-            // Cek format array (baru) atau string ber-koma (lama)
+            // Logika baru: Cek gambarDetail dari backend terlebih dahulu
             let imgArray = [];
-            if (Array.isArray(data.gambar)) {
-                imgArray = data.gambar;
-            } else if (typeof data.gambar === 'string') {
+            if (data.gambarDetail && data.gambarDetail.length > 0) {
+                imgArray = data.gambarDetail;
+            } else if (Array.isArray(data.gambar)) {
+                imgArray = data.gambar; // Fallback ke data lama
+            } else if (typeof data.gambar === 'string' && data.gambar.trim() !== '') {
                 imgArray = data.gambar.split(',');
             }
 
