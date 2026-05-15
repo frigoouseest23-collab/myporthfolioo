@@ -6,12 +6,11 @@
     <title>Portfolio | Bosman Naibaho</title>
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Tambahan Font Kalam untuk Teks Spidol -->
+    <!-- Tambahan Font Kalam untuk Teks Tulisan Tangan -->
     <link href="https://fonts.googleapis.com/css2?family=Kalam:wght@700&family=Plus+Jakarta+Sans:wght@200;400;600;800&display=swap" rel="stylesheet">
     <style>
         :root { --brand-main: #2563eb; }
         
-        /* Dark Mode Transitions */
         .dark { color-scheme: dark; }
         body { 
             font-family: 'Plus Jakarta Sans', sans-serif; 
@@ -22,34 +21,22 @@
         .light-theme { background-color: #ffffff; color: #0f172a; }
         .dark-theme { background-color: #020617; color: #f8fafc; }
         
-        /* Noise Texture Overlay */
         body::before {
-            content: "";
-            position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
+            content: ""; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background-image: url('https://grainy-gradients.vercel.app/noise.svg');
-            opacity: 0.04;
-            pointer-events: none;
-            z-index: 9999;
+            opacity: 0.04; pointer-events: none; z-index: 9999;
         }
 
-        /* Spotlight Effect */
         .spotlight {
-            position: fixed;
-            width: 600px; height: 600px;
+            position: fixed; width: 600px; height: 600px;
             background: radial-gradient(circle, color-mix(in srgb, var(--brand-main) 15%, transparent) 0%, transparent 70%);
-            border-radius: 50%;
-            pointer-events: none;
-            z-index: -1;
-            transform: translate(-50%, -50%);
-            transition: width 0.5s ease, height 0.5s ease;
+            border-radius: 50%; pointer-events: none; z-index: -1;
+            transform: translate(-50%, -50%); transition: width 0.5s ease, height 0.5s ease;
         }
 
-        /* Seamless fade-in */
         #main-wrapper { opacity: 0; transition: opacity 0.8s cubic-bezier(0.4, 0, 0.2, 1); }
         .content-ready #main-wrapper { opacity: 1; }
 
-        /* Modern Animation */
         @keyframes slideUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
         .reveal { opacity: 0; }
         .reveal.active { animation: slideUp 0.8s cubic-bezier(0.2, 1, 0.3, 1) forwards; }
@@ -58,19 +45,15 @@
         .light-theme .nav-scrolled { background: rgba(255, 255, 255, 0.85); }
         .dark-theme .nav-scrolled { background: rgba(2, 6, 23, 0.85); }
         
-        /* Mobile Nav */
         #mobile-menu { transition: all 0.4s cubic-bezier(0.7, 0, 0.3, 1); clip-path: inset(0 0 100% 0); }
         #mobile-menu.open { clip-path: inset(0 0 0 0); }
 
-        /* Global Reset Sharp */
         * { border-radius: 0 !important; }
         .kerning-tight { letter-spacing: -0.05em; }
 
-        /* Sembunyikan Scrollbar tapi tetap bisa di-scroll */
         ::-webkit-scrollbar { display: none; width: 0; }
         html, body, div { scrollbar-width: none; -ms-overflow-style: none; }
 
-        /* Efek Mask Bawah Gambar */
         .mask-bottom-fade {
             -webkit-mask-image: linear-gradient(to bottom, rgba(0,0,0,1) 65%, rgba(0,0,0,0) 100%);
             mask-image: linear-gradient(to bottom, rgba(0,0,0,1) 65%, rgba(0,0,0,0) 100%);
@@ -81,13 +64,7 @@
             darkMode: 'class',
             theme: {
                 extend: {
-                    colors: { 
-                        brand: { 
-                            50: 'color-mix(in srgb, var(--brand-main) 10%, white)', 
-                            600: 'var(--brand-main)', 
-                            900: 'color-mix(in srgb, var(--brand-main) 80%, black)' 
-                        } 
-                    }
+                    colors: { brand: { 50: 'color-mix(in srgb, var(--brand-main) 10%, white)', 600: 'var(--brand-main)', 900: 'color-mix(in srgb, var(--brand-main) 80%, black)' } }
                 }
             }
         }
@@ -121,7 +98,6 @@
                     <a href="#tentang" class="hover:text-brand-600 transition-all">About</a>
                     <a href="#portofolio" class="hover:text-brand-600 transition-all">Work</a>
                     <a href="#kontak" class="text-slate-900 dark:text-white border-b border-slate-900 dark:border-white pb-1 hover:text-brand-600 transition-all">Connect</a>
-                    <!-- Theme Toggle Button -->
                     <button onclick="toggleTheme()" class="p-2 border border-slate-200 dark:border-slate-800 hover:bg-slate-50 dark:hover:bg-slate-900 transition-all cursor-pointer">
                         <svg id="theme-icon-light" class="w-4 h-4 hidden" fill="currentColor" viewBox="0 0 20 20"><path d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.464 5.05l-.707-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z"/></svg>
                         <svg id="theme-icon-dark" class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"/></svg>
@@ -172,22 +148,18 @@
                         <div class="absolute inset-0 bg-brand-600/10 opacity-0 group-hover:opacity-100 transition-opacity duration-700"></div>
                     </div>
                     
-                    <!-- EFEK SPIDOL PROFESI -->
-                    <div class="absolute bottom-[2%] md:bottom-[5%] z-20 transform -rotate-2 hover:rotate-0 transition-transform duration-300">
+                    <!-- EFEK TEKS PROFESI (Tanpa Latar Belakang) -->
+                    <div class="absolute bottom-[2%] md:bottom-[5%] z-20 transition-transform duration-300">
                         <div class="relative inline-block px-5 py-2 md:px-8 md:py-3">
-                            <!-- Latar Spidol -->
-                            <span class="absolute inset-0 bg-yellow-300 dark:bg-brand-600 transform -skew-x-12 rounded-sm shadow-xl border border-yellow-400 dark:border-brand-500 opacity-90"></span>
-                            <!-- Teks Profesi dengan Font Handwriting -->
-                            <span id="teks-profesi" class="relative z-10 font-['Kalam'] text-xl md:text-3xl lg:text-4xl text-slate-900 dark:text-white font-bold tracking-wider whitespace-nowrap"></span>
+                            <span id="teks-profesi" class="relative z-10 font-['Kalam'] text-2xl md:text-3xl lg:text-4xl text-slate-900 dark:text-white font-bold tracking-widest whitespace-nowrap drop-shadow-md"></span>
                         </div>
                     </div>
                 </div>
             </div>
         </section>
 
-        <!-- About Section (DIROMBAK: Align Center, Frame Desktop, Expert Ikon, Image Slider) -->
+        <!-- About Section -->
         <section id="tentang" class="py-20 md:py-32 bg-white dark:bg-slate-950 border-b border-slate-100 dark:border-slate-900 overflow-hidden">
-            <!-- max-w-7xl untuk mengikuti frame Desktop yang besar -->
             <div class="max-w-7xl mx-auto px-6 md:px-12 text-center flex flex-col items-center space-y-12 md:space-y-16">
                 
                 <!-- Judul -->
@@ -196,10 +168,10 @@
                     <h3 class="text-4xl md:text-5xl lg:text-6xl font-black kerning-tight leading-tight dark:text-white uppercase max-w-3xl" id="teks-judul-tentang"></h3>
                 </div>
 
-                <!-- Gambar About (Slider 16:9 Aspect Ratio) - Dibuat full frame (w-full) -->
+                <!-- Gambar About (Slider 16:9 Aspect Ratio - Full Width) -->
                 <div class="reveal relative w-full">
                     <div id="about-image-container" class="overflow-hidden group mask-bottom-fade w-full shadow-2xl relative aspect-video bg-slate-100 dark:bg-slate-900 rounded-xl">
-                        <!-- Images akan disuntik di sini oleh JS untuk jadi Slider -->
+                        <!-- Images disuntik di sini oleh JS -->
                     </div>
                     <!-- Indikator Titik Slider -->
                     <div id="about-slider-dots" class="absolute bottom-[10%] md:bottom-[15%] left-0 right-0 z-20 flex justify-center space-x-3 pointer-events-none"></div>
@@ -214,7 +186,7 @@
                         
                         <!-- Wadah untuk Ikon-ikon Expert -->
                         <div id="wadah-keahlian" class="flex flex-wrap justify-center items-center gap-6 md:gap-8 pt-2">
-                            <!-- Ikon akan disuntik dari Javascript di sini -->
+                            <!-- Ikon akan disuntik dari Javascript di sini (Mengambil dari tab Keahlian di Sheet) -->
                         </div>
                     </div>
                 </div>
