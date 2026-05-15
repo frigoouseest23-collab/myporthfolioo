@@ -168,7 +168,6 @@
                     <a href="#tentang" class="mobile-link text-4xl sm:text-5xl font-black kerning-tight hover:text-brand-600 dark:text-white uppercase transition-colors">About</a>
                     <a href="#portofolio" class="mobile-link text-4xl sm:text-5xl font-black kerning-tight hover:text-brand-600 dark:text-white uppercase transition-colors">Portfolio</a>
                     <div class="pt-8 border-t border-slate-200 dark:border-slate-800 w-32 mx-auto"></div>
-                    <!-- BUG FIX SCROLL: Ditambahkan document.body.style.overflow = ''; saat Switch Theme diklik -->
                     <button onclick="toggleTheme(); document.getElementById('mobile-menu').classList.remove('open'); document.body.style.overflow = '';" class="text-sm font-bold uppercase tracking-[0.3em] text-brand-600 py-3">Switch Theme</button>
                 </nav>
             </div>
@@ -195,7 +194,7 @@
                 <div class="lg:col-span-5 reveal active order-1 lg:order-2 flex flex-col items-center relative pt-4 md:pt-0">
                     <div id="profile-wrapper" class="relative w-full max-w-[280px] sm:max-w-sm md:max-w-md lg:max-w-full mx-auto">
                         
-                        <!-- Floating AI Icons Background (DIUBAH & DIPERKECIL SESUAI PERMINTAAN) -->
+                        <!-- Floating AI Icons Background -->
                         <div class="absolute inset-0 z-0 pointer-events-none">
                             <!-- ChatGPT -->
                             <img src="https://upload.wikimedia.org/wikipedia/commons/0/04/ChatGPT_logo.svg" class="absolute -top-2 left-2 w-6 h-6 sm:w-7 sm:h-7 opacity-20 dark:opacity-30 animate-[float_4s_ease-in-out_infinite]">
@@ -240,13 +239,13 @@
                     <h3 class="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-black kerning-tight leading-tight dark:text-white uppercase max-w-3xl" id="teks-judul-tentang"></h3>
                 </div>
 
-                <!-- Gambar About -->
-                <div class="reveal relative w-full px-0 sm:px-4">
-                    <div id="about-image-container" class="overflow-hidden group mask-bottom-fade w-full shadow-2xl relative aspect-[4/3] md:aspect-video bg-slate-100 dark:bg-slate-900 rounded-lg md:rounded-xl">
+                <!-- Gambar About (DIUBAH: Hilangkan mask-bottom-fade & ubah aspect menjadi video konstan) -->
+                <div class="reveal relative w-full px-0">
+                    <div id="about-image-container" class="overflow-hidden group w-full shadow-2xl relative aspect-video bg-slate-100 dark:bg-slate-900 rounded-lg md:rounded-xl">
                         <!-- Images disuntik di sini oleh JS -->
                     </div>
                     <!-- Indikator Titik Slider -->
-                    <div id="about-slider-dots" class="absolute bottom-[10%] md:bottom-[15%] left-0 right-0 z-20 flex justify-center space-x-2 md:space-x-3 pointer-events-none"></div>
+                    <div id="about-slider-dots" class="absolute bottom-4 left-0 right-0 z-20 flex justify-center space-x-2 md:space-x-3 pointer-events-none"></div>
                 </div>
 
                 <!-- Deskripsi & Expertise Icons -->
@@ -266,7 +265,7 @@
             </div>
         </section>
 
-        <!-- Portfolio Cards Section (Background Transparent & Align Center) -->
+        <!-- Portfolio Cards Section -->
         <section id="portofolio" class="py-20 md:py-32 bg-transparent">
             <div class="max-w-7xl mx-auto px-6 md:px-12">
                 <div class="mb-12 md:mb-16 reveal flex flex-col items-center text-center gap-4">
@@ -309,7 +308,6 @@
                             <label class="text-[9px] font-black uppercase tracking-widest text-slate-400 block mb-2">Message</label>
                             <textarea id="pesan" class="w-full bg-transparent outline-none font-bold text-white text-base h-24 resize-none" required></textarea>
                         </div>
-                        <!-- Tombol Bergetar (Animate Jiggle) -->
                         <button type="submit" id="tombolKirim" class="w-full bg-brand-600 text-white p-4 md:p-5 font-black text-[10px] uppercase tracking-[0.3em] hover:bg-white hover:text-slate-950 transition-all active:scale-95 cursor-pointer animate-jiggle">
                             Send Request
                         </button>
@@ -425,16 +423,12 @@
             document.getElementById('theme-icon-dark').classList.add('hidden');
         }
 
-        // ==========================================
-        // ANIMASI CINCIN SATURNUS KLIK PROFIL (Diperbarui Bulat + Miring)
-        // ==========================================
         function playSaturnRing() {
-            const wrapper = document.getElementById('profile-wrapper'); // Menggunakan wrapper agar tidak tertutup mask
+            const wrapper = document.getElementById('profile-wrapper');
             const ring = document.createElement('div');
             ring.classList.add('animate-saturn');
             wrapper.appendChild(ring);
             
-            // Hapus cincin setelah animasi selesai agar tidak menumpuk di HTML
             setTimeout(() => {
                 ring.remove();
             }, 1500);
@@ -444,19 +438,16 @@
         const mobileMenu = document.getElementById('mobile-menu');
         const closeMobileMenu = document.getElementById('close-mobile-menu');
         
-        // Fungsi Buka Menu
         menuToggle.addEventListener('click', () => { 
             mobileMenu.classList.add('open'); 
             document.body.style.overflow = 'hidden'; 
         });
         
-        // Fungsi Tutup Menu (Tombol X)
         closeMobileMenu.addEventListener('click', () => { 
             mobileMenu.classList.remove('open'); 
             document.body.style.overflow = ''; 
         });
         
-        // Fungsi Tutup Menu saat link diklik
         document.querySelectorAll('.mobile-link').forEach(link => {
             link.addEventListener('click', () => {
                 mobileMenu.classList.remove('open');
@@ -553,10 +544,8 @@
                         
                         let coverImg = getDirectImageUrl(rawCover);
                         
-                        // DIUBAH MENJADI ASPECT-5/4, TRANPARENT BACKGROUND, ALIGN CENTER, TEXT CENTER
                         container.innerHTML += `
                             <div onclick="openModal(${index})" class="group cursor-pointer bg-transparent transition-all duration-300 reveal flex flex-col hover:-translate-y-2" style="animation-delay: ${index*0.1}s">
-                                <!-- Box Gambar dengan Mask Soft Edges -->
                                 <div class="overflow-hidden aspect-[5/4] relative mask-soft-edges rounded-xl">
                                     <img src="${coverImg}" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700">
                                     <div class="absolute inset-0 bg-brand-900/0 group-hover:bg-brand-900/20 transition-all duration-300 flex items-center justify-center">
@@ -566,7 +555,6 @@
                                         </div>
                                     </div>
                                 </div>
-                                <!-- Kontainer Teks di bawah gambar (Rata Tengah) -->
                                 <div class="pt-6 flex-1 flex flex-col justify-start items-center text-center space-y-3">
                                     <span class="text-[9px] font-black uppercase tracking-[0.4em] text-brand-600">${item.kategori}</span>
                                     <h4 class="text-2xl font-black kerning-tight leading-tight uppercase dark:text-white group-hover:text-brand-600 transition-colors">${item.judul}</h4>
