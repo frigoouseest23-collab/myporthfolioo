@@ -64,20 +64,39 @@
             mask-image: linear-gradient(to bottom, rgba(0,0,0,1) 65%, rgba(0,0,0,0) 100%);
         }
 
-        /* Animasi Cincin Lingkaran Penuh (Klik Profil) */
+        /* Animasi Mengambang (Floating) untuk Ikon AI */
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-20px) rotate(10deg); }
+        }
+
+        /* Animasi Tombol Bergetar Periodik */
+        @keyframes jiggle {
+            0%, 85%, 100% { transform: rotate(0deg) scale(1); }
+            87% { transform: rotate(3deg) scale(1.02); }
+            89% { transform: rotate(-3deg) scale(1.02); }
+            91% { transform: rotate(3deg) scale(1.02); }
+            93% { transform: rotate(-3deg) scale(1.02); }
+            95% { transform: rotate(0deg) scale(1); }
+        }
+        .animate-jiggle {
+            animation: jiggle 6s ease-in-out infinite;
+        }
+
+        /* Animasi Cincin Saturnus Miring Mutar (Klik Profil) */
         @keyframes saturnEffect {
-            0% { transform: translate(-50%, -50%) scale(0.8); opacity: 0.8; border-width: 4px; }
-            100% { transform: translate(-50%, -50%) scale(2); opacity: 0; border-width: 0px; }
+            0% { transform: translate(-50%, -50%) rotateX(70deg) rotateZ(0deg) scale(0.6); opacity: 1; border-width: 2px; }
+            100% { transform: translate(-50%, -50%) rotateX(70deg) rotateZ(180deg) scale(1.8); opacity: 0; border-width: 15px; }
         }
         .animate-saturn {
-            position: absolute; top: 50%; left: 50%;
-            width: 100%; aspect-ratio: 1 / 1;
+            position: absolute; top: 40%; left: 50%;
+            width: 130%; aspect-ratio: 1 / 1;
             border-radius: 50%;
             border-style: solid;
             border-color: var(--brand-main);
-            box-shadow: 0 0 30px var(--brand-main), inset 0 0 30px var(--brand-main);
-            animation: saturnEffect 1s cubic-bezier(0.1, 0.8, 0.3, 1) forwards;
-            pointer-events: none; z-index: -1; /* Di belakang foto profil */
+            box-shadow: 0 0 20px var(--brand-main), inset 0 0 20px var(--brand-main);
+            animation: saturnEffect 1.2s cubic-bezier(0.1, 0.8, 0.3, 1) forwards;
+            pointer-events: none; z-index: 5; /* Memastikan ada di belakang mask profil */
         }
     </style>
     <script>
@@ -167,13 +186,40 @@
                 </div>
 
                 <div class="lg:col-span-5 reveal active order-1 lg:order-2 flex flex-col items-center relative pt-4 md:pt-0">
-                    <div id="profile-container" class="relative group mask-bottom-fade w-full max-w-[280px] sm:max-w-sm md:max-w-md lg:max-w-full mx-auto cursor-pointer" onclick="playSaturnRing()">
-                        <img id="link-foto-profil" src="" alt="Profile" class="w-full h-auto object-cover grayscale group-hover:grayscale-0 transform group-hover:scale-105 transition-all duration-700 relative z-10">
-                        <div class="absolute inset-0 bg-brand-600/10 opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none z-20"></div>
-                    </div>
-                    
-                    <div class="absolute -bottom-8 md:-bottom-12 left-1/2 transform -translate-x-1/2 w-full text-center z-20 pointer-events-none px-4">
-                        <span id="teks-profesi" class="relative z-10 text-[11px] sm:text-xs md:text-sm lg:text-base font-black uppercase tracking-[0.2em] md:tracking-[0.4em] text-slate-800 dark:text-slate-200 drop-shadow-2xl"></span>
+                    <!-- Wrapper utama agar elemen dekoratif (saturn ring & icon AI) tidak ikut terpotong efek mask -->
+                    <div id="profile-wrapper" class="relative w-full max-w-[280px] sm:max-w-sm md:max-w-md lg:max-w-full mx-auto">
+                        
+                        <!-- Floating AI Icons Background -->
+                        <div class="absolute inset-0 z-0 pointer-events-none">
+                            <!-- ChatGPT -->
+                            <img src="https://upload.wikimedia.org/wikipedia/commons/0/04/ChatGPT_logo.svg" class="absolute -top-2 left-2 w-6 h-6 sm:w-7 sm:h-7 opacity-10 dark:opacity-20 animate-[float_4s_ease-in-out_infinite]">
+                            <!-- Gemini -->
+                            <img src="https://www.gstatic.com/lamda/images/gemini_sparkle_v002_d4735304ff6292a690345.svg" class="absolute top-1/4 -right-4 w-7 h-7 sm:w-8 sm:h-8 opacity-10 dark:opacity-20 animate-[float_5s_ease-in-out_infinite_1s]">
+                            <!-- Google Workspace -->
+                            <img src="https://upload.wikimedia.org/wikipedia/commons/5/5f/Google_Workspace_Logo.svg" class="absolute top-1/2 -left-6 w-5 h-5 sm:w-6 sm:h-6 opacity-10 dark:opacity-20 filter grayscale animate-[float_6s_ease-in-out_infinite_2s]">
+                            <!-- Grok (X) -->
+                            <img src="https://upload.wikimedia.org/wikipedia/commons/c/ce/X_logo_2023.svg" class="absolute bottom-1/4 -right-2 w-4 h-4 sm:w-5 sm:h-5 opacity-10 dark:opacity-20 dark:invert animate-[float_4.5s_ease-in-out_infinite_0.5s]">
+                            <!-- Claude (Anthropic / AI Brain Star) -->
+                            <svg class="absolute -bottom-4 left-6 w-5 h-5 sm:w-6 sm:h-6 opacity-10 dark:opacity-20 text-slate-800 dark:text-white animate-[float_5.5s_ease-in-out_infinite_1.5s]" viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M12 2L14.5 9.5L22 12L14.5 14.5L12 22L9.5 14.5L2 12L9.5 9.5L12 2Z"/>
+                            </svg>
+                            <!-- Dreamina / Sparkles -->
+                            <svg class="absolute -top-6 right-10 w-4 h-4 sm:w-5 sm:h-5 opacity-10 dark:opacity-20 text-slate-800 dark:text-white animate-[float_6.5s_ease-in-out_infinite_2.5s]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M9.5 2L11.5 7.5L17 9.5L11.5 11.5L9.5 17L7.5 11.5L2 9.5L7.5 7.5L9.5 2Z"/>
+                                <path d="M19 15L19.5 17.5L22 18L19.5 18.5L19 21L18.5 18.5L16 18L18.5 17.5L19 15Z"/>
+                            </svg>
+                        </div>
+
+                        <!-- Gambar Profil dengan Masking -->
+                        <div id="profile-container" class="relative group mask-bottom-fade w-full cursor-pointer z-10" onclick="playSaturnRing()">
+                            <img id="link-foto-profil" src="" alt="Profile" class="w-full h-auto object-cover grayscale group-hover:grayscale-0 transform group-hover:scale-105 transition-all duration-700 relative z-10">
+                            <div class="absolute inset-0 bg-brand-600/10 opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none z-20"></div>
+                        </div>
+                        
+                        <!-- Profesi Overlay -->
+                        <div class="absolute -bottom-8 md:-bottom-12 left-1/2 transform -translate-x-1/2 w-full text-center z-20 pointer-events-none px-4">
+                            <span id="teks-profesi" class="relative z-10 text-[11px] sm:text-xs md:text-sm lg:text-base font-black uppercase tracking-[0.2em] md:tracking-[0.4em] text-slate-800 dark:text-slate-200 drop-shadow-2xl"></span>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -215,15 +261,15 @@
             </div>
         </section>
 
-        <!-- Portfolio Cards Section -->
-        <section id="portofolio" class="py-20 md:py-32 bg-slate-50 dark:bg-slate-900/30">
+        <!-- Portfolio Cards Section (Background Transparent & Align Center) -->
+        <section id="portofolio" class="py-20 md:py-32 bg-transparent">
             <div class="max-w-7xl mx-auto px-6 md:px-12">
-                <div class="mb-12 md:mb-16 reveal flex flex-col md:flex-row justify-between items-start md:items-end gap-4 md:gap-6">
+                <div class="mb-12 md:mb-16 reveal flex flex-col items-center text-center gap-4">
                     <div>
                         <h2 class="text-[9px] font-black uppercase tracking-[0.4em] text-slate-400 mb-2">Portfolio</h2>
                         <h3 class="text-4xl md:text-5xl font-black kerning-tight dark:text-white uppercase">SELECTED WORKS.</h3>
                     </div>
-                    <p class="text-xs md:text-sm text-slate-500 font-light max-w-xs md:text-right">Click on any project to view full details and interactive preview.</p>
+                    <p class="text-xs md:text-sm text-slate-500 font-light max-w-md">Click on any project to view full details and interactive preview.</p>
                 </div>
                 
                 <!-- Tempat merender kartu portofolio -->
@@ -258,7 +304,8 @@
                             <label class="text-[9px] font-black uppercase tracking-widest text-slate-400 block mb-2">Message</label>
                             <textarea id="pesan" class="w-full bg-transparent outline-none font-bold text-white text-base h-24 resize-none" required></textarea>
                         </div>
-                        <button type="submit" id="tombolKirim" class="w-full bg-brand-600 text-white p-4 md:p-5 font-black text-[10px] uppercase tracking-[0.3em] hover:bg-white hover:text-slate-950 transition-all active:scale-95 cursor-pointer">
+                        <!-- Tombol Bergetar (Animate Jiggle) -->
+                        <button type="submit" id="tombolKirim" class="w-full bg-brand-600 text-white p-4 md:p-5 font-black text-[10px] uppercase tracking-[0.3em] hover:bg-white hover:text-slate-950 transition-all active:scale-95 cursor-pointer animate-jiggle">
                             Send Request
                         </button>
                     </form>
@@ -374,18 +421,18 @@
         }
 
         // ==========================================
-        // ANIMASI CINCIN SATURNUS KLIK PROFIL
+        // ANIMASI CINCIN SATURNUS KLIK PROFIL (Diperbarui Bulat + Miring)
         // ==========================================
         function playSaturnRing() {
-            const container = document.getElementById('profile-container');
+            const wrapper = document.getElementById('profile-wrapper'); // Menggunakan wrapper agar tidak tertutup mask
             const ring = document.createElement('div');
             ring.classList.add('animate-saturn');
-            container.appendChild(ring);
+            wrapper.appendChild(ring);
             
             // Hapus cincin setelah animasi selesai agar tidak menumpuk di HTML
             setTimeout(() => {
                 ring.remove();
-            }, 1200);
+            }, 1500);
         }
 
         const menuToggle = document.getElementById('menu-toggle');
@@ -501,10 +548,10 @@
                         
                         let coverImg = getDirectImageUrl(rawCover);
                         
-                        // DIUBAH MENJADI ASPECT-SQUARE (1:1)
+                        // DIUBAH MENJADI ASPECT-5/4
                         container.innerHTML += `
                             <div onclick="openModal(${index})" class="group cursor-pointer bg-white dark:bg-slate-950 transition-all duration-300 reveal flex flex-col shadow-sm hover:shadow-xl md:hover:shadow-2xl hover:shadow-brand-600/10 hover:-translate-y-1 md:hover:-translate-y-2" style="animation-delay: ${index*0.1}s">
-                                <div class="overflow-hidden aspect-square relative">
+                                <div class="overflow-hidden aspect-[5/4] relative">
                                     <img src="${coverImg}" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700">
                                     <div class="absolute inset-0 bg-slate-900/0 group-hover:bg-slate-900/30 transition-all duration-300 flex items-center justify-center">
                                         <div class="opacity-0 group-hover:opacity-100 transform translate-y-4 group-hover:translate-y-0 transition-all duration-300 bg-white text-slate-950 px-4 md:px-6 py-2 md:py-3 text-[8px] md:text-[9px] font-black uppercase tracking-widest flex items-center space-x-2">
