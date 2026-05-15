@@ -68,6 +68,15 @@
         /* Sembunyikan Scrollbar tapi tetap bisa di-scroll */
         ::-webkit-scrollbar { display: none; width: 0; }
         html, body, div { scrollbar-width: none; -ms-overflow-style: none; }
+
+        /* =========================================
+           EFEK BRUSH / FADE PADA BAWAH GAMBAR 
+           ========================================= */
+        .mask-bottom-fade {
+            /* Membuat gambar perlahan memudar transparan di 30% bagian bawahnya */
+            -webkit-mask-image: linear-gradient(to bottom, rgba(0,0,0,1) 65%, rgba(0,0,0,0) 100%);
+            mask-image: linear-gradient(to bottom, rgba(0,0,0,1) 65%, rgba(0,0,0,0) 100%);
+        }
     </style>
     <script>
         tailwind.config = {
@@ -160,10 +169,13 @@
                 </div>
 
                 <div class="lg:col-span-5 reveal active order-1 lg:order-2">
-                    <div class="relative overflow-hidden group">
+                    <!-- ======================================= -->
+                    <!-- KELAS EFEK MASK DITAMBAHKAN DI SINI -->
+                    <div class="relative group mask-bottom-fade">
                         <img id="link-foto-profil" src="" alt="Profile" class="w-full h-auto object-cover grayscale group-hover:grayscale-0 transform group-hover:scale-105 transition-all duration-700">
                         <div class="absolute inset-0 bg-brand-600/10 opacity-0 group-hover:opacity-100 transition-opacity duration-700"></div>
                     </div>
+                    <!-- ======================================= -->
                 </div>
             </div>
         </section>
