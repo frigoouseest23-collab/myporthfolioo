@@ -259,12 +259,14 @@
     <!-- OVERLAY FULLSCREEN MODAL UNTUK DETAIL PORTFOLIO -->
     <!-- ============================================== -->
     <div id="project-modal" class="fixed inset-0 z-[100] bg-white dark:bg-slate-950 flex-col overflow-x-hidden overflow-y-auto opacity-0 pointer-events-none transition-opacity duration-500">
-        <!-- Sticky Header with Close Button -->
+        <!-- Sticky Header with BACK Button -->
         <div class="sticky top-0 z-50 bg-white/90 dark:bg-slate-950/90 backdrop-blur-md border-b border-slate-200 dark:border-slate-800 p-4 flex justify-between items-center px-6 md:px-12">
-            <span class="text-[10px] font-black uppercase tracking-widest text-slate-400">Project Overview</span>
-            <button onclick="closeModal()" class="p-3 bg-slate-100 dark:bg-slate-900 hover:bg-brand-600 hover:text-white transition-all group cursor-pointer">
-                <svg class="w-6 h-6 transform group-hover:rotate-90 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+            <button onclick="closeModal()" class="inline-flex items-center space-x-3 text-slate-900 dark:text-white hover:text-brand-600 dark:hover:text-brand-600 transition-colors group cursor-pointer">
+                <svg class="w-6 h-6 transform group-hover:-translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path></svg>
+                <span class="text-[10px] font-black uppercase tracking-widest hidden sm:inline">Back to Portfolio</span>
+                <span class="text-[10px] font-black uppercase tracking-widest sm:hidden">Back</span>
             </button>
+            <span class="text-[10px] font-black uppercase tracking-widest text-slate-400 hidden md:block">Project Overview</span>
         </div>
 
         <!-- Detail Content -->
@@ -291,20 +293,19 @@
         <div class="w-full bg-slate-50 dark:bg-slate-900/50 border-t border-slate-200 dark:border-slate-800 py-20 px-6 mt-auto">
             <div class="max-w-3xl mx-auto text-center">
                 <h4 class="text-3xl md:text-4xl font-black uppercase kerning-tight text-slate-900 dark:text-white mb-4">Want to see it live?</h4>
-                <p id="modal-no-link" class="text-sm text-slate-500 font-light hidden mb-8">Link tidak tersedia untuk proyek ini.</p>
                 
                 <div class="flex flex-col sm:flex-row items-center justify-center gap-4 md:gap-6 mt-10">
-                    <!-- Tombol Aksi Kunjungi Web -->
+                    <!-- Tombol Aksi Kunjungi Web (Muncul jika ada link) -->
                     <a id="modal-link-aksi" href="#" target="_blank" class="w-full sm:w-auto inline-flex justify-center items-center space-x-4 bg-brand-600 text-white px-10 py-5 font-black text-[11px] uppercase tracking-[0.3em] hover:bg-slate-900 dark:hover:bg-white dark:hover:text-slate-950 transition-all shadow-xl hover:-translate-y-1">
                         <span>Visit Project</span>
                         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path></svg>
                     </a>
 
-                    <!-- Tombol Back / Close -->
-                    <button onclick="closeModal()" class="w-full sm:w-auto inline-flex justify-center items-center space-x-4 bg-transparent border-2 border-slate-900 dark:border-white text-slate-900 dark:text-white px-10 py-5 font-black text-[11px] uppercase tracking-[0.3em] hover:bg-slate-900 hover:text-white dark:hover:bg-white dark:hover:text-slate-950 transition-all hover:-translate-y-1 cursor-pointer">
-                        <svg class="w-5 h-5 transform rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
-                        <span>Back to Portfolio</span>
-                    </button>
+                    <!-- Kotak 'Tombol' Disabled (Muncul jika tidak ada link) -->
+                    <div id="modal-no-link" class="hidden w-full sm:w-auto justify-center items-center space-x-4 bg-slate-200 dark:bg-slate-800 text-slate-400 dark:text-slate-500 px-10 py-5 font-black text-[11px] uppercase tracking-[0.3em] cursor-not-allowed border border-slate-300 dark:border-slate-700">
+                        <span>Link Unavailable</span>
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18.364 18.364A9 9 0 005.636 5.636m12.728 12.728A9 9 0 015.636 5.636m12.728 12.728L5.636 5.636"></path></svg>
+                    </div>
                 </div>
             </div>
         </div>
@@ -483,17 +484,19 @@
                 });
             }
 
-            // Set Tombol Aksi Kunjungan Proyek (Ini yang melempar tab jika diklik)
+            // Set Logika Tampilan Tombol Aksi vs Box Disabled
             const btnLink = document.getElementById('modal-link-aksi');
-            const noLinkText = document.getElementById('modal-no-link');
+            const noLinkBox = document.getElementById('modal-no-link');
             
             if(data.linkTujuan && data.linkTujuan.trim() !== "" && data.linkTujuan.startsWith("http")) {
+                // Tampilkan Tombol Kunjungan
                 btnLink.href = data.linkTujuan;
                 btnLink.style.display = 'inline-flex';
-                noLinkText.style.display = 'none';
+                noLinkBox.style.display = 'none';
             } else {
+                // Tampilkan Kotak Disabled "Link Unavailable"
                 btnLink.style.display = 'none';
-                noLinkText.style.display = 'block';
+                noLinkBox.style.display = 'inline-flex';
             }
 
             // Tampilkan Modal secara full-screen
