@@ -126,7 +126,7 @@
             <div class="w-16 h-[2px] bg-slate-200 dark:bg-slate-800 relative overflow-hidden">
                 <div class="absolute inset-0 bg-brand-600 w-full -translate-x-full animate-[loader_1.5s_infinite]"></div>
             </div>
-            <p class="mt-4 text-[10px] font-bold tracking-[0.3em] uppercase text-slate-400 animate-pulse">Loading Experience</p>
+            <p class="mt-4 text-[10px] font-bold tracking-[0.3em] uppercase text-slate-400 animate-pulse">Memuat Pengalaman</p>
         </div>
     </div>
     <style> @keyframes loader { to { transform: translateX(100%); } } </style>
@@ -605,8 +605,22 @@
             if(imgArray && imgArray.length > 0) {
                 imgArray.forEach(imgUrl => {
                     if(imgUrl && imgUrl.trim() !== '') {
-                        let finalUrl = getDirectImageUrl(imgUrl);
-                        gallery.innerHTML += `<img src="${finalUrl}" alt="${data.judul}" class="w-full max-w-4xl h-auto object-cover border border-slate-100 dark:border-slate-900 shadow-md md:shadow-xl mb-2 md:mb-4 rounded-sm">`;
+                        // Cek apakah link tersebut adalah link YouTube
+                        const ytMatch = imgUrl.match(/(?:youtu\.be\/|youtube\.com\/(?:embed\/|v\/|watch\?v=|watch\?.+&v=))([\w-]{11})/);
+                        
+                        if (ytMatch && ytMatch[1]) {
+                            // Jika terdeteksi YouTube, render sebagai Iframe Video Player
+                            const videoId = ytMatch[1];
+                            gallery.innerHTML += `
+                                <div class="w-full max-w-4xl aspect-video rounded-sm shadow-md md:shadow-xl mb-2 md:mb-4 overflow-hidden border border-slate-100 dark:border-slate-900 bg-black">
+                                    <iframe class="w-full h-full" src="https://www.youtube.com/embed/${videoId}" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+                                </div>
+                            `;
+                        } else {
+                            // Jika bukan YouTube, render sebagai gambar biasa
+                            let finalUrl = getDirectImageUrl(imgUrl);
+                            gallery.innerHTML += `<img src="${finalUrl}" alt="${data.judul}" class="w-full max-w-4xl h-auto object-cover border border-slate-100 dark:border-slate-900 shadow-md md:shadow-xl mb-2 md:mb-4 rounded-sm">`;
+                        }
                     }
                 });
             }
