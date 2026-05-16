@@ -185,11 +185,14 @@
         </header>
 
         <!-- Hero Section -->
-        <section id="beranda" class="min-h-screen flex items-center pt-24 md:pt-20 pb-10 border-b border-slate-100 dark:border-slate-900">
+        <section id="beranda" class="min-h-screen flex items-center pt-28 pb-10 border-b border-slate-100 dark:border-slate-900">
             <div class="max-w-7xl mx-auto px-6 md:px-12 grid lg:grid-cols-12 gap-8 lg:gap-12 items-center w-full">
-                <div class="lg:col-span-7 space-y-6 md:space-y-8 reveal active order-2 lg:order-1 text-center lg:text-left">
+                <!-- Teks Hero -->
+                <div class="lg:col-span-7 space-y-5 md:space-y-6 reveal active order-2 lg:order-1 text-center lg:text-left">
                     <span class="text-[9px] md:text-[10px] font-bold uppercase tracking-[0.4em] text-brand-600" id="teks-status"></span>
-                    <h1 class="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-black text-slate-950 dark:text-white kerning-tight leading-[0.95] uppercase" id="teks-nama"></h1>
+                    
+                    <!-- Ukuran teks dikecilkan sedikit di Desktop agar layout tetap proporsional -->
+                    <h1 class="text-4xl sm:text-5xl md:text-6xl lg:text-[4rem] xl:text-[5rem] font-black text-slate-950 dark:text-white kerning-tight leading-[0.95] uppercase" id="teks-nama"></h1>
                     <p class="text-sm sm:text-base md:text-lg text-slate-500 dark:text-slate-400 leading-relaxed max-w-lg mx-auto lg:mx-0 font-light" id="teks-deskripsi-hero"></p>
                     
                     <div class="flex flex-wrap items-center justify-center lg:justify-start gap-4 md:gap-6 pt-2">
@@ -201,30 +204,31 @@
                         </a>
                     </div>
                     
-                    <!-- WADAH VIDEO HERO (Responsif: Desktop, Tab, HP) -->
-                    <div id="wadah-video-hero" class="mt-8 md:mt-10 lg:mt-12 w-full max-w-[280px] sm:max-w-md md:max-w-xl lg:max-w-full mx-auto lg:mx-0 hidden shadow-2xl rounded-xl md:rounded-2xl overflow-hidden aspect-video border border-slate-100 dark:border-slate-800 bg-slate-900 relative">
+                    <!-- WADAH VIDEO HERO (Responsif: Batas Max-Width Disesuaikan) -->
+                    <div id="wadah-video-hero" class="mt-8 lg:mt-10 w-full max-w-[280px] sm:max-w-md lg:max-w-[340px] xl:max-w-[420px] mx-auto lg:mx-0 hidden shadow-xl rounded-xl overflow-hidden aspect-video border border-slate-100 dark:border-slate-800 bg-slate-900 relative pointer-events-none">
                     </div>
                 </div>
 
+                <!-- Foto Profil -->
                 <div class="lg:col-span-5 reveal active order-1 lg:order-2 flex flex-col items-center relative pt-4 md:pt-0">
                     <div id="profile-wrapper" class="relative w-full max-w-[280px] sm:max-w-sm md:max-w-md lg:max-w-full mx-auto">
                         
                         <!-- Floating AI Icons Background -->
                         <div class="absolute inset-0 z-0 pointer-events-none">
                             <!-- ChatGPT -->
-                            <img src="https://upload.wikimedia.org/wikipedia/commons/0/04/ChatGPT_logo.svg" class="absolute -top-2 left-2 w-6 h-6 sm:w-7 sm:h-7 opacity-20 dark:opacity-30 animate-[float_4s_ease-in-out_infinite]">
+                            <img src="https://upload.wikimedia.org/wikipedia/commons/0/04/ChatGPT_logo.svg" class="absolute -top-2 left-2 w-6 h-6 sm:w-7 sm:h-7 opacity-10 dark:opacity-20 animate-[float_4s_ease-in-out_infinite]">
                             <!-- Gemini -->
-                            <img src="https://www.gstatic.com/lamda/images/gemini_sparkle_v002_d4735304ff6292a690345.svg" class="absolute top-1/4 -right-4 w-7 h-7 sm:w-8 sm:h-8 opacity-20 dark:opacity-30 animate-[float_5s_ease-in-out_infinite_1s]">
+                            <img src="https://www.gstatic.com/lamda/images/gemini_sparkle_v002_d4735304ff6292a690345.svg" class="absolute top-1/4 -right-4 w-7 h-7 sm:w-8 sm:h-8 opacity-10 dark:opacity-20 animate-[float_5s_ease-in-out_infinite_1s]">
                             <!-- Google Workspace -->
-                            <img src="https://upload.wikimedia.org/wikipedia/commons/5/5f/Google_Workspace_Logo.svg" class="absolute top-1/2 -left-6 w-5 h-5 sm:w-6 sm:h-6 opacity-20 dark:opacity-30 filter grayscale animate-[float_6s_ease-in-out_infinite_2s]">
+                            <img src="https://upload.wikimedia.org/wikipedia/commons/5/5f/Google_Workspace_Logo.svg" class="absolute top-1/2 -left-6 w-5 h-5 sm:w-6 sm:h-6 opacity-10 dark:opacity-20 filter grayscale animate-[float_6s_ease-in-out_infinite_2s]">
                             <!-- Google Apps Script -->
-                            <img src="https://upload.wikimedia.org/wikipedia/commons/2/2f/Google_Apps_Script.svg" class="absolute bottom-1/4 -right-2 w-5 h-5 sm:w-6 sm:h-6 opacity-20 dark:opacity-30 animate-[float_4.5s_ease-in-out_infinite_0.5s]">
+                            <img src="https://upload.wikimedia.org/wikipedia/commons/2/2f/Google_Apps_Script.svg" class="absolute bottom-1/4 -right-2 w-5 h-5 sm:w-6 sm:h-6 opacity-10 dark:opacity-20 animate-[float_4.5s_ease-in-out_infinite_0.5s]">
                             <!-- Claude AI (Anthropic style Sparkle/Star) -->
-                            <svg class="absolute -bottom-4 left-6 w-6 h-6 sm:w-7 sm:h-7 opacity-20 dark:opacity-30 text-slate-800 dark:text-white animate-[float_5.5s_ease-in-out_infinite_1.5s]" viewBox="0 0 24 24" fill="currentColor">
+                            <svg class="absolute -bottom-4 left-6 w-6 h-6 sm:w-7 sm:h-7 opacity-10 dark:opacity-20 text-slate-800 dark:text-white animate-[float_5.5s_ease-in-out_infinite_1.5s]" viewBox="0 0 24 24" fill="currentColor">
                                 <path d="M12 2C12 7.5 16.5 12 22 12C16.5 12 12 16.5 12 22C12 16.5 7.5 12 2 12C7.5 12 12 7.5 12 2Z"/>
                             </svg>
                             <!-- Dreamina (Magic Wand/Stars) -->
-                            <svg class="absolute -top-6 right-10 w-6 h-6 sm:w-7 sm:h-7 opacity-20 dark:opacity-30 text-slate-800 dark:text-white animate-[float_6.5s_ease-in-out_infinite_2.5s]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                            <svg class="absolute -top-6 right-10 w-6 h-6 sm:w-7 sm:h-7 opacity-10 dark:opacity-20 text-slate-800 dark:text-white animate-[float_6.5s_ease-in-out_infinite_2.5s]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
                                 <path d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-6.857 2.286L12 21l-2.286-6.857L5 12l2.286-2.286z"/>
                             </svg>
                         </div>
@@ -516,7 +520,15 @@
                     if (ytMatch && ytMatch[1]) {
                         const videoId = ytMatch[1];
                         const videoContainer = document.getElementById('wadah-video-hero');
-                        videoContainer.innerHTML = `<iframe class="w-full h-full scale-[1.05] pointer-events-none" src="https://www.youtube.com/embed/${videoId}?autoplay=1&mute=1&controls=0&rel=0&modestbranding=1&playsinline=1&loop=1&playlist=${videoId}&iv_load_policy=3" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>`;
+                        videoContainer.innerHTML = `
+                            <div class="absolute inset-0 pointer-events-none z-0">
+                                <iframe class="absolute top-1/2 left-1/2 w-[135%] h-[135%] -translate-x-1/2 -translate-y-1/2 pointer-events-none" 
+                                    src="https://www.youtube.com/embed/${videoId}?autoplay=1&mute=1&controls=0&rel=0&showinfo=0&modestbranding=1&playsinline=1&loop=1&playlist=${videoId}&iv_load_policy=3&disablekb=1" 
+                                    title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen>
+                                </iframe>
+                            </div>
+                            <div class="absolute inset-0 bg-transparent z-10 pointer-events-auto"></div>
+                        `;
                         videoContainer.classList.remove('hidden');
                     }
                 }
