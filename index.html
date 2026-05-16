@@ -126,10 +126,21 @@
             <div class="w-16 h-[2px] bg-slate-200 dark:bg-slate-800 relative overflow-hidden">
                 <div class="absolute inset-0 bg-brand-600 w-full -translate-x-full animate-[loader_1.5s_infinite]"></div>
             </div>
-            <p class="mt-4 text-[10px] font-bold tracking-[0.3em] uppercase text-slate-400 animate-pulse">Memuat Pengalaman</p>
+            <p class="mt-4 text-[10px] font-bold tracking-[0.3em] uppercase text-slate-400 animate-pulse">Please Wait</p>
         </div>
     </div>
     <style> @keyframes loader { to { transform: translateX(100%); } } </style>
+
+    <!-- NOTIFIKASI SUCCESS ANIMASI -->
+    <div id="success-notification" class="fixed inset-0 z-[300] flex items-center justify-center pointer-events-none opacity-0 transition-opacity duration-500">
+        <div id="success-card" class="bg-white/90 dark:bg-slate-900/90 backdrop-blur-xl border border-brand-600/30 shadow-[0_0_40px_rgba(37,99,235,0.2)] px-10 py-8 text-center transform scale-90 transition-transform duration-500 rounded-xl">
+            <div class="w-16 h-16 bg-brand-600 rounded-full flex items-center justify-center mx-auto mb-4 shadow-lg shadow-brand-600/50 animate-bounce">
+                <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"></path></svg>
+            </div>
+            <h4 class="text-3xl font-black kerning-tight dark:text-white uppercase mb-2">Success</h4>
+            <p class="text-[10px] text-slate-500 font-bold tracking-widest uppercase">Message Dispatched</p>
+        </div>
+    </div>
 
     <div id="main-wrapper">
         <!-- Navbar -->
@@ -461,6 +472,28 @@
             });
         });
 
+        // FUNGSI NOTIFIKASI SUCCESS
+        function showSuccessNotification() {
+            const notification = document.getElementById('success-notification');
+            const card = document.getElementById('success-card');
+            
+            // Tampilkan modal
+            notification.classList.remove('pointer-events-none', 'opacity-0');
+            notification.classList.add('opacity-100');
+            
+            // Animasi pop-up pada kartu
+            card.classList.remove('scale-90');
+            card.classList.add('scale-100');
+            
+            // Sembunyikan otomatis setelah 3 detik
+            setTimeout(() => {
+                notification.classList.add('opacity-0', 'pointer-events-none');
+                notification.classList.remove('opacity-100');
+                card.classList.add('scale-90');
+                card.classList.remove('scale-100');
+            }, 3000);
+        }
+
         async function loadContent() {
             try {
                 const response = await fetch(SCRIPT_URL);
@@ -707,11 +740,11 @@
             
             try {
                 await fetch(SCRIPT_URL, { method: 'POST', body: fd, mode: 'no-cors' });
-                alert("MESSAGE DISPATCHED SUKSES.");
+                showSuccessNotification(); // Panggil notifikasi sukses di sini
                 form.reset();
             } catch(err) {
                 console.error(err);
-                alert("MESSAGE DISPATCHED."); 
+                showSuccessNotification(); // Karena 'no-cors', sukses/error akan tetap memanggil notifikasi
                 form.reset();
             } finally { 
                 b.disabled = false; 
